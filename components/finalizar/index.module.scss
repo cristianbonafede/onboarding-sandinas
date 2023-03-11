@@ -1,0 +1,109 @@
+.finalizar {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  .content {
+    height: inherit;
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .image {
+      width: 400px;
+      height: 400px;
+      position: relative;
+    }
+
+    .text {
+      text-align: center;
+      max-width: 400px;
+      font-size: 15px;
+      line-height: 1.8;
+      color: #999;
+      margin-bottom: 100px;
+      margin-top: -60px;
+      z-index: 2;
+
+      .title {
+        font-size: 17px;
+        font-weight: 600;
+        color: #666;
+        margin: 20px 0px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-height: 768px) {
+  .finalizar {
+    .content {
+      .image {
+        width: 350px;
+        height: 350px;
+      }
+
+      .text {
+        margin-top: -80px;
+        font-size: 14px;
+        margin-bottom: 80px;
+        max-width: 80%;
+
+        .title {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .finalizar {
+    .content {
+      .image {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 20px;
+      }
+
+      .text {
+        margin-top: -30px;
+        font-size: 14px;
+        margin-bottom: 0px;
+        max-width: 80%;
+
+        .title {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) and (-webkit-min-device-pixel-ratio: 1.5) {
+  .finalizar {
+    .content {
+      .image {
+        width: 240px;
+        height: 240px;
+      }
+
+      .text {
+        max-width: 300px;
+        font-size: 10px;
+        margin-bottom: 50px;
+        margin-top: -40px;
+
+        .title {
+          font-size: 13px;
+          margin: 20px 0px;
+        }
+      }
+    }
+  }
+}

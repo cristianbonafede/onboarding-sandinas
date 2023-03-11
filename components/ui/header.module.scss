@@ -1,0 +1,99 @@
+.header {
+  position: relative;
+  overflow: hidden;
+  min-height: 122px;
+  width: inherit;
+  border-radius: 20px 20px 0 0;
+
+  .container {
+    .back {
+      position: absolute;
+      font-size: 30px;
+      top: 30px;
+      left: 20px;
+      border-radius: 100px;
+      height: 50px;
+      width: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 100;
+    }
+
+    .step {
+      width: 100%;
+      position: absolute;
+      top: 35px;
+      left: 50%;
+      transform: translate(-50%, 0);
+      font-weight: 600;
+      font-size: 10px;
+      text-align: center;
+      z-index: 100;
+    }
+
+    .title {
+      width: 100%;
+      position: absolute;
+      top: 65px;
+      left: 50%;
+      transform: translate(-50%, 0);
+      font-weight: 600;
+      font-size: 18px;
+      text-align: center;
+      color: #fff;
+      z-index: 100;
+    }
+  }
+
+  .bottom {
+    z-index: 2;
+    position: absolute;
+    bottom: -20px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .header {
+    border-radius: 0px;
+
+    .container {
+      .step {
+        top: 25px;
+        left: 50%;
+        font-size: 12px;
+      }
+
+      .title {
+        top: 55px;
+        font-size: 19px;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) and (-webkit-min-device-pixel-ratio: 1.5) {
+  .header {
+    min-height: 85px;
+
+    .container {
+      .back {
+        font-size: 20px;
+        top: 15px;
+        left: 10px;
+      }
+
+      .step {
+        top: 22px;
+        font-size: 8px;
+      }
+
+      .title {
+        top: 42px;
+        font-weight: 600;
+        font-size: 13px;
+      }
+    }
+  }
+}

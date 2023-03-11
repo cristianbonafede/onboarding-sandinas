@@ -1,0 +1,123 @@
+.checklist {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .progress {
+    padding: 0 0 20px 0;
+  }
+
+  .section {
+    font-size: 17px;
+    margin-bottom: 30px;
+  }
+
+  .list {
+    height: calc(100% - 470px);
+    border-radius: 0 0 40px 40px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .item {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 15px;
+      background-color: #fafafa;
+      border-bottom: 1px solid #efefef;
+      padding: 15px 30px;
+      transition: all 0.3s ease-in-out;
+
+      .status {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        position: relative;
+      }
+
+      .title {
+        color: #ccc;
+        padding-top: 2px;
+        transition: all 0.3s ease-in-out;
+      }
+
+      &.current {
+        font-weight: 500;
+        background: rgba(255, 159, 67, 0.12);
+
+        .title {
+          color: #ff9f43;
+        }
+      }
+
+      &.completed {
+        background: rgba(40, 199, 111, 0.12);
+        border-bottom: 1px solid #bfeed4;
+
+        .title {
+          color: #28c76f;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .checklist {
+    .section {
+      font-size: 15px;
+    }
+
+    .list {
+      height: calc(100% - 390px);
+      border-radius: 0 !important;
+
+      .item {
+        font-size: 14px;
+        padding: 10px 15px;
+
+        .status {
+        }
+
+        .title {
+          padding-top: 2px;
+        }
+
+        &.current {
+          font-weight: 500;
+        }
+
+        &.completed {
+          .title {
+            color: #28c76f;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) and (-webkit-min-device-pixel-ratio: 1.5) {
+  .checklist {
+    .progress {
+      padding: 0 0 20px 0;
+    }
+
+    .section {
+      font-size: 13px;
+      margin-bottom: 30px;
+    }
+  }
+}

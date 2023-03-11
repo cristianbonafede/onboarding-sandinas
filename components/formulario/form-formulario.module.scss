@@ -1,0 +1,30 @@
+.section {
+  margin-bottom: 30px;
+
+  .title {
+    font-weight: 600;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .subtitle {
+    color: #888;
+    font-weight: 600;
+    font-size: 12px;
+    text-align: center;
+  }
+}
+
+@media (min-width: 768px) and (-webkit-min-device-pixel-ratio: 1.5) {
+  .section {
+    margin-bottom: 20px;
+
+    .title {
+      font-size: 12px;
+    }
+
+    .subtitle {
+      font-size: 9px;
+    }
+  }
+}

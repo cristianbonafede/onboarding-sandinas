@@ -1,0 +1,35 @@
+@import 'styles/variables.scss';
+
+.man {
+  .skin {
+    fill: #fab9af;
+  }
+
+  .skinShadow {
+    fill: #e8948b;
+  }
+
+  .shirt {
+    fill: $color-primary;
+  }
+
+  .tshirt {
+    fill: #fff;
+  }
+
+  .pants {
+    fill: #79baec;
+  }
+
+  .sneakers {
+    fill: #0e538c;
+  }
+
+  .hair {
+    fill: #0e538c;
+  }
+}
+
+.question {
+  fill: $color-primary;
+}

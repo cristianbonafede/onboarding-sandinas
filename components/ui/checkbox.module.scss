@@ -1,0 +1,52 @@
+.checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+
+  .box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    min-height: 30px;
+    min-width: 30px;
+    color: #ffffff;
+    border-radius: 5px;
+    margin-right: 15px;
+    border: 1px solid #d8d6de;
+  }
+  .row {
+    display: flex;
+    flex-direction: column;
+
+    .label {
+      font-size: 13px;
+    }
+    .description {
+      display: flex;
+      align-items: column;
+      font-size: 10px;
+    }
+  }
+}
+
+@media (min-width: 768px) and (-webkit-min-device-pixel-ratio: 1.5) {
+  .checkbox {
+    .box {
+      font-size: 10px;
+      min-height: 20px;
+      min-width: 20px;
+      margin-right: 10px;
+    }
+    .row {
+      .label {
+        font-size: 9px;
+      }
+
+      .description {
+        font-size: 8px;
+      }
+    }
+  }
+}

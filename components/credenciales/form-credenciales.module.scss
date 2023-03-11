@@ -1,0 +1,64 @@
+.validations {
+  ul {
+    padding-left: 20px;
+    padding-top: 10px;
+    padding: 10px 0px 10px 20px;
+
+    .validation {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      color: #888;
+      font-size: 12px;
+      margin-bottom: 5px;
+
+      &.completed {
+        color: #000;
+      }
+
+      .icon {
+        position: relative;
+        min-height: 15px;
+        min-width: 15px;
+        height: 15px;
+        width: 15px;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.footer {
+  text-align: center;
+}
+
+@media (min-width: 768px) and (-webkit-min-device-pixel-ratio: 1.5) {
+  .validations {
+    font-size: 10px;
+
+    ul {
+      padding-left: 20px;
+      padding-top: 10px;
+      padding: 10px 0px 10px 20px;
+
+      .validation {
+        font-size: 9px;
+        margin-bottom: 3px;
+
+        .icon {
+          min-height: 10px;
+          min-width: 10px;
+          height: 10px;
+          width: 10px;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+
+  .footer {
+    font-size: 10px;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+}
