@@ -10,7 +10,7 @@ const CuentaComitentePage = () => {
   return (
     <SolicitudContextProvider>
       <Head>
-        <title>Cuenta Comitente - BIND Pagos</title>
+        <title>Cuenta Comitente - sandinas Pagos</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Layout>

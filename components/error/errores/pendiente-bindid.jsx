@@ -5,9 +5,9 @@ import Highlight from './../../ui/highlight';
 import Card from '../../ui/card';
 import Layout from '../../ui/layout';
 import Header from './../../ui/header';
-import classes from './pendiente-bindid.module.scss';
+import classes from './pendiente-sandinasid.module.scss';
 
-const PendienteBindid = () => {
+const Pendientesandinasid = () => {
   const router = useRouter();
 
   return (
@@ -47,4 +47,4 @@ const PendienteBindid = () => {
   );
 };
 
-export default PendienteBindid;
+export default Pendientesandinasid;

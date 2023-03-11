@@ -19,7 +19,7 @@ import SolicitudPreviaAprobada from './errores/solicitud-previa-aprobada';
 import ValidacionFacialIncompleta from './errores/valdiacion-facial-incompleta';
 
 import CredencialesIncompletas from './errores/credenciales-incompleta';
-import PendienteBindid from './errores/pendiente-bindid';
+import Pendientesandinasid from './errores/pendiente-sandinasid';
 
 const Error = () => {
   const router = useRouter();
@@ -81,8 +81,8 @@ const Error = () => {
       case 'CREDENCIALES_INCOMPLETAS':
           return <CredencialesIncompletas/>
 
-      case 'PENDIENTE_BINDID':
-          return <PendienteBindid/> 
+      case 'PENDIENTE_sandinasID':
+          return <Pendientesandinasid/> 
 
       default:
         return <Generico />;

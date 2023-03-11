@@ -29,7 +29,7 @@ const status = {
   rejected: '3',
   validation: '4',
   pendingCredentials: '5',
-  errorBind: '6',
+  errorsandinas: '6',
 };
 
 const get = async () => {
@@ -162,14 +162,14 @@ const updateListaNegra = async () => {
   return false;
 };
 
-const updateListaNegraBind = async () => {
+const updateListaNegrasandinas = async () => {
   if (mockup) {
     await mockupDelay();
     return true;
   }
 
   const id = sessionStorage.getItem('solicitud');
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/${id}/lista-negra-bind`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/${id}/lista-negra-sandinas`;
   const data = {};
 
   const response = await http.patch(url, data);
@@ -649,23 +649,7 @@ const updateDispositivo = async (urlPJ) => {
   return false;
 };
 
-const updateCuentaComitente = async () => {
-  if (mockup) {
-    await mockupDelay();
-    return true;
-  }
 
-  const id = sessionStorage.getItem('solicitud');
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/${id}/alta-cuenta-comitente`;
-
-  const response = await http.patch(url);
-
-  if (!response.error) {
-    return true;
-  }
-
-  return false;
-};
 
 const runAction = async (action, form) => {
   switch (action.id) {
@@ -689,8 +673,8 @@ const runAction = async (action, form) => {
     case 'update-lista-negra':
       return await updateListaNegra();
 
-    case 'update-lista-negra-bind':
-      return await updateListaNegraBind();
+    case 'update-lista-negra-sandinas':
+      return await updateListaNegrasandinas();
 
     case 'update-lista-blanca':
       return await updateListaBlanca();
@@ -776,8 +760,7 @@ const runAction = async (action, form) => {
     case 'update-dispositivo-pj':
       return await updateDispositivo('pj');
 
-    case 'update-cuenta-comitente':
-      return await updateCuentaComitente();
+
 
     default:
       return false;
@@ -828,5 +811,4 @@ export const solicitud = {
   updateLegajoDigital: updateLegajoDigital,
   updateCredenciales: updateCredenciales,
   runAction: runAction,
-  updateCuentaComitente: updateCuentaComitente,
 };

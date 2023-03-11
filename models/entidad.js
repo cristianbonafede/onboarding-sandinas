@@ -35,7 +35,7 @@ const get = async () => {
             title: '',
           },
           {
-            id: 'update-lista-negra-bind',
+            id: 'update-lista-negra-sandinas',
             title: '',
           },
           {
