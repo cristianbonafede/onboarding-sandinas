@@ -35,10 +35,7 @@ const Documento = () => {
         `entidades/${idEntidad}`
       );
    if (response) {
-        console.log(data)
-        const data = response.data;
-        const url = data.urlLanding   
-        router.push(url)
+
      
       }
     }, 10000);
