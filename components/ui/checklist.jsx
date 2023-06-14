@@ -1,6 +1,5 @@
-import { Progress } from 'antd';
 import Image from 'next/image';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import SolicitudContext from '../../store/solicitud-context';
 import { solicitud } from './../../models/solicitud';
@@ -10,8 +9,6 @@ import classes from './checklist.module.scss';
 const Checklist = (props) => {
   const { onFinish } = props;
 
-  const itemRef = useRef(null);
-
   const context = useContext(SolicitudContext);
 
   const [colorPrimary, setColorPrimary] = useState();
@@ -19,8 +16,8 @@ const Checklist = (props) => {
   const [start, setStart] = useState(false);
   const [list, setList] = useState([]);
 
-  const [current, setCurrent] = useState();
   const [percentage, setPercentage] = useState(0);
+  const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
     setColorPrimary(sessionStorage.getItem('color-primary'));
@@ -42,15 +39,13 @@ const Checklist = (props) => {
 
   useEffect(() => {
     async function run() {
-      if (!start || list.length === 0) {
+      if (!start) {
         return;
       }
 
       let error = false;
 
       for (let i = 0; i < list.length; i++) {
-        setCurrent(list[i]);
-
         // Ejecutar metodo
         const valid = await solicitud.runAction(list[i], context.form);
         if (!valid) {
@@ -69,101 +64,52 @@ const Checklist = (props) => {
       }
 
       if (!error) {
-        setCurrent(undefined);
-        onFinish();
+        setCompleted(true);
+
+        setTimeout(() => {
+          onFinish();
+        }, 2000);
       }
     }
 
     run();
   }, [start]);
 
-  useEffect(() => {
-    if (!current || !itemRef.current) {
-      return;
-    }
-
-    scroll(itemRef.current);
-  }, [current]);
-
-  const scroll = (element) => {
-    var container = element.parentElement;
-
-    const elementTop = element.offsetTop;
-    const elementBottom = elementTop + element.clientHeight;
-
-    const containerTop = container.offsetTop;
-    const containerBottom = containerTop + container.clientHeight;
-
-    const visible =
-      elementTop >= containerTop && elementBottom <= containerBottom;
-
-    if (!visible) {
-      container.scrollTo({
-        top: elementTop,
-        behavior: 'smooth',
-      });
-    }
-  };
-
   if (context.screen !== solicitud.screens.checklist) {
     return;
   }
 
   return (
-    <div className={classes.checklist}>
-      <div className={classes.progress}>
-        <Progress
-          type="circle"
-          percent={percentage}
-          width={150}
-          strokeWidth={7}
-          strokeColor={{
-            '0%': colorPrimary,
-            '100%': colorPrimary,
-          }}
-          format={(value) =>
-            value === '100' ? (
+    <div
+      className={`${classes.checklist} ${completed ? classes.completed : ''}`}
+    >
+      <div className={classes.container}>
+        <div
+          className={classes.spinner}
+          style={{ borderBottomColor: colorPrimary }}
+        ></div>
+
+        {!completed && percentage > 0 && (
+          <div className={classes.percentage}>{percentage}%</div>
+        )}
+
+        {completed && (
+          <div className={classes.success}>
+            <div className={classes.check}>
               <Image
                 src="/images/check.png"
                 alt="Check"
-                height={60}
-                width={60}
+                layout="fill"
+                objectFit="contain"
               />
-            ) : (
-              `${value}%`
-            )
-          }
-        />
-      </div>
-
-      <div className={classes.section}>Procesando...</div>
-
-      {/* <div className={classes.list}>
-        {list.filter(d=> d.title).map((item, index) => (
-          <div
-            key={index}
-            className={`${classes.item} 
-            ${current === item && classes.current} 
-            ${item.completed && classes.completed}`}
-            ref={current === item ? itemRef : null}
-          >
-            {item.completed && (
-              <div className={classes.status}>
-                <Image
-                  src="/images/check.png"
-                  alt="Completed"
-                  layout="fill"
-                  objectFit="contain"
-                />
-              </div>
-            )}
-            {item.title && (
-            <div className={classes.title}>{item.title}</div>
-
-            )}
+            </div>
           </div>
-        ))}
-      </div> */}
+        )}
+
+        <div className={classes.title}>
+          {completed ? '¡Completado!' : 'Procesando...'}
+        </div>
+      </div>
     </div>
   );
 };
