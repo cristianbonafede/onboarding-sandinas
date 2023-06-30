@@ -9,7 +9,7 @@ const DocumentoPage = () => {
   return (
     <Fragment>
       <Head>
-        <title>Documento - Soluciones Andinas</title>
+        <title>Documento - Banco Industrial</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Layout>

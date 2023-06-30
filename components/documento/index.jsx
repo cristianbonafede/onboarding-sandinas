@@ -5,6 +5,7 @@ import { FiCamera, FiImage, FiRepeat } from 'react-icons/fi';
 import CameraBlocked from '../ui/camera-blocked';
 import Checklist from '../ui/checklist';
 import Header from '../ui/header';
+import Highlight from './../ui/highlight';
 import Instructions from './../ui/instructions';
 import FormImages from './form-images';
 
@@ -12,7 +13,6 @@ import { solicitud } from '../../models/solicitud';
 import { startCamera } from '../../services/camera';
 import SolicitudContext from '../../store/solicitud-context';
 
-import Highlight from './../ui/highlight';
 import classes from './index.module.scss';
 
 const Documento = () => {
@@ -62,7 +62,8 @@ const Documento = () => {
       >
         Para poder comenzar, necesitamos una foto del
         <Highlight primary>frente</Highlight>y
-        <Highlight primary>dorso</Highlight> de tu documento. Las fotos deben ser nítidas y legibles.
+        <Highlight primary>dorso</Highlight> de tu documento. Las fotos deben
+        ser nítidas y legibles.
         <div className={classes.list}>
           <div className={classes.item}>
             <div className={classes.icon} style={{ color: colorPrimary }}>
@@ -74,7 +75,7 @@ const Documento = () => {
             <div className={classes.icon} style={{ color: colorPrimary }}>
               <FiRepeat />
             </div>
-            Podés cambiar la cámara para mejorar  la calidad de la foto
+            Podés cambiar la cámara para mejorar la calidad de la foto
           </div>
           <div className={classes.item}>
             <div className={classes.icon} style={{ color: colorPrimary }}>

@@ -39,16 +39,42 @@ const Camera = (props) => {
     setColorText(sessionStorage.getItem('color-text'));
   }, []);
 
+
+
+  useEffect(() => {
+    navigator.mediaDevices.getUserMedia({
+      audio: false,
+      video: true,
+    })
+      .then(stream => {
+        debugger
+        const track = stream.getVideoTracks()[0];
+        const imageCapture = new ImageCapture(track);
+        const capabilities = track.getCapabilities();
+        alert(JSON.stringify(capabilities))
+        // const { height } = capabilities.height;
+        // const { focusMode } = capabilities.focusMode;
+
+        stream.getTracks().forEach(track => track.stop());
+      })
+      .catch(error => {
+        console.error(error)
+      });
+  }, [])
   // Cargar camaras
   useEffect(() => {
     async function getCameras() {
+      debugger
       const devices = await navigator.mediaDevices.enumerateDevices();
+      console.log(devices)
       const nCameras = devices.filter(({ kind }) => kind === 'videoinput');
       setCameras(nCameras);
 
       const savedCamera = sessionStorage.getItem('camera');
       const nCamera = savedCamera ? JSON.parse(savedCamera) : undefined;
       setupCamera(nCamera);
+
+
     }
 
     getCameras();
@@ -59,6 +85,7 @@ const Camera = (props) => {
 
     if (camera) {
       nContraints.deviceId = camera.deviceId;
+      console.log(camera)
     } else {
       nContraints.facingMode = position === 'front' ? 'user' : 'environment';
     }

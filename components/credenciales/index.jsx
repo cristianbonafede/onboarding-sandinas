@@ -52,7 +52,7 @@ const Credenciales = () => {
         Creamos una cuenta en Banco Industrial donde acreditaremos en línea tus
         cobros con QR. Creá tu{' '}
         <Highlight primary>usuario y contraseña</Highlight>
-        para ingresar al Homebanking sandinas24.
+        para ingresar al Homebanking Bind24.
       </Instructions>
       <FormCredenciales />
       <Checklist onFinish={onFinish} />

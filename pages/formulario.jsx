@@ -9,7 +9,7 @@ const TerminosPage = () => {
   return (
     <Fragment>
       <Head>
-        <title>Formulario - Soluciones Andinas</title>
+        <title>Formulario - Banco Industrial</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Layout>

@@ -9,7 +9,7 @@ const TelefonoPage = () => {
   return (
     <Fragment>
       <Head>
-        <title>Telefono - Soluciones Andinas</title>
+        <title>Telefono - Banco Industrial</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Layout>

@@ -54,6 +54,7 @@ export function SolicitudContextProvider(props) {
       theme.set(nCliente);
 
       const steps = await solicitud.getSteps(nCliente);
+
       for (let i = 0; i < steps.length; i++) {
         const raw = process.env.NEXT_PUBLIC_HASH_KEY + steps[i].url;
         steps[i].hash = await hashSha256(raw);
@@ -89,15 +90,16 @@ export function SolicitudContextProvider(props) {
     const currentIndex = steps.findIndex((x) => x.hash === currentHash);
 
     const allowed = currentIndex > -1 && currentIndex <= allowedIndex;
+    const nScreen = sessionStorage.getItem('screen');
 
     if (allowed) {
-      setScreen(solicitud.screens.instructions);
+      setScreen(nScreen ?? solicitud.screens.instructions);
     }
 
     return allowed ? undefined : steps[allowedIndex].url;
   };
 
-  const updateStep = (router) => {
+  const updateStep = async (router) => {
     if (router.pathname === '/procesando') {
       setStep({ url: router.pathname, title: 'En Proceso' });
       return;
@@ -110,15 +112,32 @@ export function SolicitudContextProvider(props) {
 
     const url = router.pathname;
     const nStep = steps.find((x) => x.url === url);
+
+    if (nStep?.validations) {
+      for (let i = 0; i < nStep.validations.length; i++) {
+        const action = nStep.validations[i];
+        const valid = await solicitud.runAction(action, {});
+
+        if (!valid) {
+          break;
+        }
+      }
+    }
+
     setStep(nStep);
   };
 
-  const nextStep = async (router, url) => {
+  const nextStep = async (router, url, screen) => {
     if (url) {
-      sessionStorage.setItem('step', url);
+      const raw = process.env.NEXT_PUBLIC_HASH_KEY + url;
+      const hash = await hashSha256(raw);
+      sessionStorage.setItem('step', hash);
+      sessionStorage.setItem('screen', screen);
       router.push(url);
       return;
     }
+
+    sessionStorage.removeItem('screen');
 
     const index = steps.indexOf(step);
     const nStep = steps[index + 1];

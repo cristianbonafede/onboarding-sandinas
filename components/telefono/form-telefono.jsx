@@ -5,6 +5,9 @@ import Input from '../ui/input';
 
 import { solicitud } from '../../models/solicitud';
 import SolicitudContext from '../../store/solicitud-context';
+import Highlight from './../ui/highlight';
+
+import classes from './form-telefono.module.scss';
 
 const FormTelefono = () => {
   const context = useContext(SolicitudContext);
@@ -58,7 +61,13 @@ const FormTelefono = () => {
         readonly={readonly}
         type="number"
         inputMode="tel"
+        addonBefore="(+54 9)"
       />
+
+      <div className={classes.description}>
+        Ingresá tu número de celular sin espacio ni guiones,
+        <Highlight primary> incluyendo el código de área.</Highlight>
+      </div>
     </Form>
   );
 };

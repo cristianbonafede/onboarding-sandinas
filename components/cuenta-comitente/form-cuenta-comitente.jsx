@@ -90,14 +90,14 @@ const FormCuentaComitente = () => {
     <Form renderButtons={renderButtons} onSubmit={onSubmit}>
       <div className={classes.image}>
         <Image
-          src="/images/sandinas-inversiones.png"
+          src="/images/bind-inversiones.png"
           alt="instruction"
           layout="fill"
           objectFit="contain"
         />
       </div>
       <div className={classes.text}>
-        Con <Highlight>sandinas Inversiones</Highlight> podes tener una cuenta
+        Con <Highlight>Bind Inversiones</Highlight> podes tener una cuenta
         comitente gratuita para invertir tus ventas. Operá con Dólar MEP,
         acciones, bonos y muchos activos más.
       </div>

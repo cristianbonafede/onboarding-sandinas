@@ -9,7 +9,7 @@ const PruebaVidaPage = () => {
   return (
     <Fragment>
       <Head>
-        <title>Prueba de Vida - Soluciones Andinas</title>
+        <title>Prueba de Vida - Banco Industrial</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Layout>

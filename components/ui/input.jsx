@@ -15,7 +15,8 @@ const Input = (props) => {
     hidden,
     validators,
     onChange,
-    maxLength
+    maxLength,
+    addonBefore,
   } = props;
 
   const [focused, setFocused] = useState(false);
@@ -66,6 +67,7 @@ const Input = (props) => {
           placeholder={placeholder}
           autoFocus={autofocus}
           readOnly={readonly}
+          addonBefore={addonBefore}
           className={`${hidden && 'hidden'}`}
           onChange={onChange}
           onFocus={() => setFocused(true)}
@@ -79,6 +81,7 @@ const Input = (props) => {
           placeholder={placeholder}
           autoFocus={autofocus}
           readOnly={readonly}
+          addonBefore={addonBefore}
           className={`${hidden && 'hidden'}`}
           onChange={onChange}
           maxLength={maxLength ?? 99999999}

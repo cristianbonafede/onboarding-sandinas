@@ -94,6 +94,20 @@ a {
   color: inherit !important;
 }
 
+.ant-input-wrapper {
+  &.ant-input-group {
+    :first-child {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    :last-child {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+}
+
 @media (min-width: 768px) and (-webkit-min-device-pixel-ratio: 1.5) {
   .ant-input {
     font-size: 9px;
@@ -103,5 +117,17 @@ a {
   .ant-input-affix-wrapper {
     font-size: 9px;
     padding: 5px 8px;
+  }
+
+  .ant-input-wrapper {
+    &.ant-input-group {
+      :first-child {
+        font-size: 9px;
+      }
+
+      :last-child {
+        font-size: 9px;
+      }
+    }
   }
 }

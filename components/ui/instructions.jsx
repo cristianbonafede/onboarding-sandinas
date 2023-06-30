@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useContext } from 'react';
 
 import Button from './button';
@@ -9,6 +10,7 @@ import { solicitud } from './../../models/solicitud';
 import classes from './instructions.module.scss';
 
 const Instructions = (props) => {
+  const router = useRouter();
   const { image, vertical, children, nextScreen } = props;
 
   const context = useContext(SolicitudContext);

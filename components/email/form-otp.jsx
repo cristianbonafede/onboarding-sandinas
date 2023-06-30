@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
 
 import Button from '../ui/button';
@@ -11,6 +12,7 @@ import Highlight from '../ui/highlight';
 import classes from './form-otp.module.scss';
 
 const FormOtp = () => {
+  const router = useRouter();
   const context = useContext(SolicitudContext);
 
   const [error, setError] = useState(false);
@@ -18,27 +20,6 @@ const FormOtp = () => {
   const [valid, setValid] = useState(false);
 
   const [loading, setLoading] = useState(false);
-
-  const renderButtons = () => {
-    return (
-      <React.Fragment>
-        <Button
-          block
-          type="secondary"
-          text="Cambiar el email"
-          onClick={onClickBack}
-        />
-        <Button
-          block
-          type="secondary"
-          text="Reenviar"
-          disabled={!resend}
-          onClick={onClickSend}
-          loading={loading}
-        />
-      </React.Fragment>
-    );
-  };
 
   useEffect(() => {
     if (valid) {
@@ -56,6 +37,34 @@ const FormOtp = () => {
     }, 60000);
     return () => clearTimeout(timer);
   }, [context.screen, resend]);
+
+  const renderButtons = () => {
+    return (
+      <React.Fragment>
+        <Button
+          block
+          type="secondary"
+          text="Reenviar email"
+          disabled={!resend}
+          onClick={onClickSend}
+          loading={loading}
+        />
+        <Button
+          block
+          type="secondary"
+          text="Cambiar el email"
+          onClick={onClickBack}
+        />
+        {context.step?.skipable && (
+          <Button block type="secondary" text="Continuar sin validar email" onClick={onClickSkip} />
+        )}
+      </React.Fragment>
+    );
+  };
+
+  const onClickSkip = async () => {
+    await context.nextStep(router);
+  };
 
   const onClickSend = async () => {
     setLoading(true);
