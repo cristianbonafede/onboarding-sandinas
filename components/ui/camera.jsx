@@ -99,9 +99,37 @@ const Camera = (props) => {
     if (camera) {
       nContraints.deviceId = camera.deviceId;
       console.log(camera)
+
+
+
+      const { deviceId } = camera;
+      const constraints = { video: { deviceId } };
+  
+      navigator.mediaDevices.getUserMedia(constraints)
+        .then(stream => {
+      const track = stream.getVideoTracks();
+          
+          
+          
+          const imageCapture = new ImageCapture(track);
+          const capabilities = track.getCapabilities();
+          alert(JSON.stringify(capabilities))
+          // const { height } = capabilities.height;
+          // const { focusMode } = capabilities.focusMode;
+  
+          // stream.getTracks().forEach(track => track.stop());
+  
+        })
+
     } else {
       nContraints.facingMode = position === 'front' ? 'user' : 'environment';
     }
+
+
+
+
+
+
 
     if (isMobile) {
       nContraints.width = position === 'back' ? { min: 720 } : { min: 540 };
