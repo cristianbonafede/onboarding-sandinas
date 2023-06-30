@@ -91,7 +91,7 @@ const Camera = (props) => {
               nContraints.aspectRatio = 1.777777778;
             }
 
-            setContraints(nContraints);
+            setContraints(constraints);
           stream.getTracks().forEach(track => track.stop());
         })
         .catch(error => {
