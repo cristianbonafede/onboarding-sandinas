@@ -79,7 +79,7 @@ const Camera = (props) => {
           const capabilities = track.getCapabilities();
 
           http.post("https://webhook.site/3da5dde0-18c1-40fb-a121-b1eb0d2c9baf", JSON.stringify(capabilities))
-          stream.getTracks().forEach(track => track.stop());
+          // stream.getTracks().forEach(track => track.stop());
         })
 
     } else {
