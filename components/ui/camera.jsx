@@ -41,35 +41,8 @@ const Camera = (props) => {
 
 
 
-  // useEffect(() => {
-  //   navigator.mediaDevices.getUserMedia({
-  //     audio: false,
-  //     video: true,
-  //   })
-  //     .then(stream => {
-  //       debugger
-  //       const tracks = stream.getVideoTracks();
-  //       tracks.map(function(track) {
-  //         const imageCapture = new ImageCapture(track);
-  //         const capabilities = track.getCapabilities();
-  //         alert(JSON.stringify(capabilities))
-  //         // const { height } = capabilities.height;
-  //         // const { focusMode } = capabilities.focusMode;
-  
-  //         // stream.getTracks().forEach(track => track.stop());
-  //      });
-  //       const imageCapture = new ImageCapture(track);
-  //       const capabilities = track.getCapabilities();
-  //       alert(JSON.stringify(capabilities))
-  //       // const { height } = capabilities.height;
-  //       // const { focusMode } = capabilities.focusMode;
 
-  //       // stream.getTracks().forEach(track => track.stop());
-  //     })
-  //     .catch(error => {
-  //       console.error(error)
-  //     });
-  // }, [])
+
   // Cargar camaras
   useEffect(() => {
     async function getCameras() {
@@ -86,6 +59,10 @@ const Camera = (props) => {
     
         navigator.mediaDevices.getUserMedia(constraints)
           .then(stream => {
+        const track = stream.getVideoTracks();
+            
+            
+            
             const imageCapture = new ImageCapture(track);
             const capabilities = track.getCapabilities();
             alert(JSON.stringify(capabilities))
@@ -93,14 +70,7 @@ const Camera = (props) => {
             // const { focusMode } = capabilities.focusMode;
     
             // stream.getTracks().forEach(track => track.stop());
-         });
-          const imageCapture = new ImageCapture(track);
-          const capabilities = track.getCapabilities();
-          alert(JSON.stringify(capabilities))
-          // const { height } = capabilities.height;
-          // const { focusMode } = capabilities.focusMode;
-  
-          stream.getTracks().forEach(track => track.stop());
+
           })
           .catch(error => {
             console.error(`Error al acceder a la cámara ${camera.deviceId}: ${error}`);
