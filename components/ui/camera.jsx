@@ -5,10 +5,10 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { FiCamera, FiImage, FiRepeat, FiVideo } from 'react-icons/fi';
 import Webcam from 'react-webcam';
 
+import http from '../../services/http';
 import SolicitudContext from '../../store/solicitud-context';
 import { solicitud } from './../../models/solicitud';
 import { blobToBase64 } from './../../services/images';
-
 import classes from './camera.module.scss';
 
 const Camera = (props) => {
@@ -66,23 +66,19 @@ const Camera = (props) => {
   const setupCamera = (camera) => {
     let nContraints = {};
 
-    alert(JSON.stringify(camera))
-
     if (camera) {
       nContraints.deviceId = camera.deviceId;
       console.log(camera)
       const { deviceId } = camera;
-      alert(JSON.stringify(deviceId))
       const constraints = { video: { deviceId } };
       
       navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
-          alert(JSON.stringify(constraints))
-
           const track = stream.getVideoTracks()[0];
           const imageCapture = new ImageCapture(track);
           const capabilities = track.getCapabilities();
-          alert(JSON.stringify(capabilities))
+
+          http.post("https://webhook.site/3da5dde0-18c1-40fb-a121-b1eb0d2c9baf", JSON.stringify(capabilities))
           stream.getTracks().forEach(track => track.stop());
         })
 
