@@ -96,6 +96,8 @@ const Camera = (props) => {
   const setupCamera = (camera) => {
     let nContraints = {};
 
+    alert(JSON.stringify(camera))
+
     if (camera) {
       nContraints.deviceId = camera.deviceId;
       console.log(camera)
@@ -103,6 +105,8 @@ const Camera = (props) => {
 
 
       const { deviceId } = camera;
+    alert(JSON.stringify(deviceId))
+
       const constraints = { video: { deviceId } };
   
       navigator.mediaDevices.getUserMedia(constraints)
