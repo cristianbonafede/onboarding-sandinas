@@ -1,0 +1,10 @@
+.documento {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  .instructions {
+    padding-top: 30px;
+  }
+}
