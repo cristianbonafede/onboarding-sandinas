@@ -3,7 +3,6 @@ import { Tooltip } from 'antd';
 import Image from 'next/image';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { FiCamera, FiImage, FiRepeat, FiVideo } from 'react-icons/fi';
-import Webcam from 'react-webcam';
 
 import http from '../../services/http';
 import SolicitudContext from '../../store/solicitud-context';
@@ -74,17 +73,8 @@ const Camera = (props) => {
       
       navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
-
-          http.post("https://webhook.site/3da5dde0-18c1-40fb-a121-b1eb0d2c9baf", JSON.stringify({stream: "stream"}))
-
           const track = stream.getVideoTracks()[0];
-          http.post("https://webhook.site/3da5dde0-18c1-40fb-a121-b1eb0d2c9baf", JSON.stringify({track: "track"}))
-
           const capabilities = track.getCapabilities();
-          http.post("https://webhook.site/3da5dde0-18c1-40fb-a121-b1eb0d2c9baf", JSON.stringify({capabilities: "capabilities"}))
-
-          
-
             if (isMobile) {
               nContraints.width = position === 'back' ? { min: 720 } : { min: 540 };
               nContraints.height = position === 'back' ? { min: 1280 } : { min: 960 };
@@ -312,7 +302,7 @@ const Camera = (props) => {
 
   return (
     <div className={classes.camera}>
-      {contraints && (
+      {/* {contraints && (
         <Webcam
           className={classes.webcam}
           ref={webcamRef}
@@ -322,7 +312,7 @@ const Camera = (props) => {
           screenshotFormat="image/jpeg"
           screenshotQuality={1}
         />
-      )}
+      )} */}
 
       <div className={classes.overlay}>
         {available && overlay === 'card' && (
