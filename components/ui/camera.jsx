@@ -71,28 +71,19 @@ const Camera = (props) => {
     if (camera) {
       nContraints.deviceId = camera.deviceId;
       console.log(camera)
-
-
-
       const { deviceId } = camera;
-    alert(JSON.stringify(deviceId))
-
+      alert(JSON.stringify(deviceId))
       const constraints = { video: { deviceId } };
-  
+      
       navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
+          alert(JSON.stringify(constraints))
+
           const track = stream.getVideoTracks()[0];
-          
-          
-          
           const imageCapture = new ImageCapture(track);
           const capabilities = track.getCapabilities();
           alert(JSON.stringify(capabilities))
-          // const { height } = capabilities.height;
-          // const { focusMode } = capabilities.focusMode;
-  
           stream.getTracks().forEach(track => track.stop());
-  
         })
 
     } else {
