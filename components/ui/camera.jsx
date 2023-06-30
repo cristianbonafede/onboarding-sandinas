@@ -75,14 +75,14 @@ const Camera = (props) => {
       navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
 
-          stream.getTracks()
-          .forEach(track => track.stop());
+          http.post("https://webhook.site/3da5dde0-18c1-40fb-a121-b1eb0d2c9baf", JSON.stringify({stream: "stream"}))
 
           const track = stream.getVideoTracks()[0];
-          const imageCapture = new ImageCapture(track);
-          const capabilities = track.getCapabilities();
+          http.post("https://webhook.site/3da5dde0-18c1-40fb-a121-b1eb0d2c9baf", JSON.stringify({track: "track"}))
 
-          http.post("https://webhook.site/3da5dde0-18c1-40fb-a121-b1eb0d2c9baf", JSON.stringify(capabilities))
+          const capabilities = track.getCapabilities();
+          http.post("https://webhook.site/3da5dde0-18c1-40fb-a121-b1eb0d2c9baf", JSON.stringify({capabilities: "capabilities"}))
+
           
 
             if (isMobile) {
