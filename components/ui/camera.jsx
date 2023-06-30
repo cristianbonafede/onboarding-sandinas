@@ -48,7 +48,16 @@ const Camera = (props) => {
     })
       .then(stream => {
         debugger
-        const track = stream.getVideoTracks()[0];
+        const tracks = stream.getVideoTracks();
+        tracks.map(function(track) {
+          const imageCapture = new ImageCapture(track);
+          const capabilities = track.getCapabilities();
+          alert(JSON.stringify(capabilities))
+          // const { height } = capabilities.height;
+          // const { focusMode } = capabilities.focusMode;
+  
+          // stream.getTracks().forEach(track => track.stop());
+       });
         const imageCapture = new ImageCapture(track);
         const capabilities = track.getCapabilities();
         alert(JSON.stringify(capabilities))
