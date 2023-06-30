@@ -107,7 +107,7 @@ const Camera = (props) => {
   
       navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
-      const track = stream.getVideoTracks();
+          const track = stream.getVideoTracks()[0];
           
           
           
@@ -404,7 +404,7 @@ const Camera = (props) => {
                 <div className={classes.placeholder}></div>
               </div>
             )}
-            {cameras && cameras.length > 1 && (
+            {true && (
               <div className={classes.action}>
                 <Tooltip
                   visible={true}
