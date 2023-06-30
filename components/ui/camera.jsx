@@ -79,6 +79,15 @@ const Camera = (props) => {
           const capabilities = track.getCapabilities();
 
           http.post("https://webhook.site/3da5dde0-18c1-40fb-a121-b1eb0d2c9baf", JSON.stringify(capabilities))
+          
+
+    if (isMobile) {
+      nContraints.width = position === 'back' ? { min: 720 } : { min: 540 };
+      nContraints.height = position === 'back' ? { min: 1280 } : { min: 960 };
+      nContraints.aspectRatio = 1.777777778;
+    }
+
+    setContraints(nContraints);
           // stream.getTracks().forEach(track => track.stop());
         })
         .catch(error => {
@@ -88,13 +97,7 @@ const Camera = (props) => {
 
     } else {
       nContraints.facingMode = position === 'front' ? 'user' : 'environment';
-    }
-
-
-
-
-
-
+      
 
     if (isMobile) {
       nContraints.width = position === 'back' ? { min: 720 } : { min: 540 };
@@ -103,6 +106,13 @@ const Camera = (props) => {
     }
 
     setContraints(nContraints);
+    }
+
+
+
+
+
+
   };
 
   const onChangeCamera = () => {
