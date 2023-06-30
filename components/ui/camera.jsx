@@ -82,7 +82,8 @@ const Camera = (props) => {
           // stream.getTracks().forEach(track => track.stop());
         })
         .catch(error => {
-          JSON.stringify(`Error al acceder a la cámara ${camera.deviceId}: ${error}`)
+          http.post("https://webhook.site/3da5dde0-18c1-40fb-a121-b1eb0d2c9baf", JSON.stringify(`Error al acceder a la cámara ${camera.deviceId}: ${error}`))
+          
         });
 
     } else {
