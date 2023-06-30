@@ -41,35 +41,35 @@ const Camera = (props) => {
 
 
 
-  useEffect(() => {
-    navigator.mediaDevices.getUserMedia({
-      audio: false,
-      video: true,
-    })
-      .then(stream => {
-        debugger
-        const tracks = stream.getVideoTracks();
-        tracks.map(function(track) {
-          const imageCapture = new ImageCapture(track);
-          const capabilities = track.getCapabilities();
-          alert(JSON.stringify(capabilities))
-          // const { height } = capabilities.height;
-          // const { focusMode } = capabilities.focusMode;
+  // useEffect(() => {
+  //   navigator.mediaDevices.getUserMedia({
+  //     audio: false,
+  //     video: true,
+  //   })
+  //     .then(stream => {
+  //       debugger
+  //       const tracks = stream.getVideoTracks();
+  //       tracks.map(function(track) {
+  //         const imageCapture = new ImageCapture(track);
+  //         const capabilities = track.getCapabilities();
+  //         alert(JSON.stringify(capabilities))
+  //         // const { height } = capabilities.height;
+  //         // const { focusMode } = capabilities.focusMode;
   
-          // stream.getTracks().forEach(track => track.stop());
-       });
-        const imageCapture = new ImageCapture(track);
-        const capabilities = track.getCapabilities();
-        alert(JSON.stringify(capabilities))
-        // const { height } = capabilities.height;
-        // const { focusMode } = capabilities.focusMode;
+  //         // stream.getTracks().forEach(track => track.stop());
+  //      });
+  //       const imageCapture = new ImageCapture(track);
+  //       const capabilities = track.getCapabilities();
+  //       alert(JSON.stringify(capabilities))
+  //       // const { height } = capabilities.height;
+  //       // const { focusMode } = capabilities.focusMode;
 
-        // stream.getTracks().forEach(track => track.stop());
-      })
-      .catch(error => {
-        console.error(error)
-      });
-  }, [])
+  //       // stream.getTracks().forEach(track => track.stop());
+  //     })
+  //     .catch(error => {
+  //       console.error(error)
+  //     });
+  // }, [])
   // Cargar camaras
   useEffect(() => {
     async function getCameras() {
@@ -77,6 +77,40 @@ const Camera = (props) => {
       const devices = await navigator.mediaDevices.enumerateDevices();
       console.log(devices)
       const nCameras = devices.filter(({ kind }) => kind === 'videoinput');
+
+
+
+      nCameras.forEach(camera => {
+        const { deviceId } = camera;
+        const constraints = { video: { deviceId } };
+    
+        navigator.mediaDevices.getUserMedia(constraints)
+          .then(stream => {
+            const imageCapture = new ImageCapture(track);
+            const capabilities = track.getCapabilities();
+            alert(JSON.stringify(capabilities))
+            // const { height } = capabilities.height;
+            // const { focusMode } = capabilities.focusMode;
+    
+            // stream.getTracks().forEach(track => track.stop());
+         });
+          const imageCapture = new ImageCapture(track);
+          const capabilities = track.getCapabilities();
+          alert(JSON.stringify(capabilities))
+          // const { height } = capabilities.height;
+          // const { focusMode } = capabilities.focusMode;
+  
+          stream.getTracks().forEach(track => track.stop());
+          })
+          .catch(error => {
+            console.error(`Error al acceder a la cámara ${camera.deviceId}: ${error}`);
+          });
+      });
+    
+
+
+
+
       setCameras(nCameras);
 
       const savedCamera = sessionStorage.getItem('camera');
