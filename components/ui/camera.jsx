@@ -51,36 +51,6 @@ const Camera = (props) => {
       console.log(devices)
       const nCameras = devices.filter(({ kind }) => kind === 'videoinput');
 
-
-
-      nCameras.forEach(camera => {
-        const { deviceId } = camera;
-        const constraints = { video: { deviceId } };
-    
-        navigator.mediaDevices.getUserMedia(constraints)
-          .then(stream => {
-        const track = stream.getVideoTracks();
-            
-            
-            
-            const imageCapture = new ImageCapture(track);
-            const capabilities = track.getCapabilities();
-            alert(JSON.stringify(capabilities))
-            // const { height } = capabilities.height;
-            // const { focusMode } = capabilities.focusMode;
-    
-            // stream.getTracks().forEach(track => track.stop());
-
-          })
-          .catch(error => {
-            console.error(`Error al acceder a la cámara ${camera.deviceId}: ${error}`);
-          });
-      });
-    
-
-
-
-
       setCameras(nCameras);
 
       const savedCamera = sessionStorage.getItem('camera');
