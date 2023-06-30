@@ -55,7 +55,7 @@ const Camera = (props) => {
         // const { height } = capabilities.height;
         // const { focusMode } = capabilities.focusMode;
 
-        stream.getTracks().forEach(track => track.stop());
+        // stream.getTracks().forEach(track => track.stop());
       })
       .catch(error => {
         console.error(error)
