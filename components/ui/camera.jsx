@@ -74,6 +74,10 @@ const Camera = (props) => {
       
       navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
+
+          stream.getTracks()
+          .forEach(track => track.stop());
+
           const track = stream.getVideoTracks()[0];
           const imageCapture = new ImageCapture(track);
           const capabilities = track.getCapabilities();
