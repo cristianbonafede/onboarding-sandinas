@@ -4,11 +4,13 @@ import Image from 'next/image';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { FiCamera, FiImage, FiRepeat, FiVideo } from 'react-icons/fi';
 
+import axios from 'axios';
 import http from '../../services/http';
 import SolicitudContext from '../../store/solicitud-context';
 import { solicitud } from './../../models/solicitud';
 import { blobToBase64 } from './../../services/images';
 import classes from './camera.module.scss';
+
 
 const Camera = (props) => {
   const { type, position, overlay, duration, upload, onSubmit } = props;
@@ -64,9 +66,8 @@ const Camera = (props) => {
 
   const setupCamera = (camera) => {
     let nContraints = {};
-    http.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(`Entrando al setupCamera`))
-    http.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", camera)
-    http.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(camera))
+    axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435",  JSON.stringify(`Entrando al setupCamera`));
+
     if (camera) {
       nContraints.deviceId = camera.deviceId;
       console.log(camera)
