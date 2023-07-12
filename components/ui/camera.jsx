@@ -64,9 +64,9 @@ const Camera = (props) => {
 
   const setupCamera = (camera) => {
     let nContraints = {};
-    http.post("https://webhook.site/231eb86a-e120-4ff7-a1f7-361f68a4c46d", JSON.stringify(`Entrando al setupCamera`))
-    http.post("https://webhook.site/231eb86a-e120-4ff7-a1f7-361f68a4c46d", camera)
-    http.post("https://webhook.site/231eb86a-e120-4ff7-a1f7-361f68a4c46d", JSON.stringify(camera))
+    http.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(`Entrando al setupCamera`))
+    http.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", camera)
+    http.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(camera))
     if (camera) {
       nContraints.deviceId = camera.deviceId;
       console.log(camera)
@@ -87,7 +87,7 @@ const Camera = (props) => {
           stream.getTracks().forEach(track => track.stop());
         })
         .catch(error => {
-          http.post("https://webhook.site/231eb86a-e120-4ff7-a1f7-361f68a4c46d", JSON.stringify(`Error al acceder a la cámara ${camera.deviceId}: ${error}`))
+          http.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(`Error al acceder a la cámara ${camera.deviceId}: ${error}`))
           
         });
 
