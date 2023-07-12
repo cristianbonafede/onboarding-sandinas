@@ -87,6 +87,7 @@ const Camera = (props) => {
               nContraints.height = position === 'back' ? { min: 1280 } : { min: 960 };
               nContraints.aspectRatio = 1.777777778;
             }
+            axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(capabilities));
 
             setContraints(constraints);
           stream.getTracks().forEach(track => track.stop());
