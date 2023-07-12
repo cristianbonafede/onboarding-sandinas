@@ -106,7 +106,7 @@ const Camera = (props) => {
 
 
     let nContraints = {};
-    axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435",  JSON.stringify(`Entrando al setupCamera`));
+    axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435",  JSON.stringify(`Entrando al setupCamera ${camera?.deviceId}`));
     axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(camera));
 
     if (camera) {
