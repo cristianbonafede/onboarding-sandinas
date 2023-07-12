@@ -86,6 +86,7 @@ const Camera = (props) => {
 
     setContraints(nContraints);
 
+    
     if( webcamRef &&  webcamRef.current &&  webcamRef.current.stream){
         const stream = webcamRef.current.stream;
         const track = stream.getVideoTracks()[0];
