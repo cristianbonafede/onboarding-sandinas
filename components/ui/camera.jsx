@@ -314,7 +314,7 @@ const Camera = (props) => {
 
   return (
     <div className={classes.camera}>
-      {/* {contraints && (
+      {contraints && (
         <Webcam
           className={classes.webcam}
           ref={webcamRef}
@@ -324,7 +324,7 @@ const Camera = (props) => {
           screenshotFormat="image/jpeg"
           screenshotQuality={1}
         />
-      )} */}
+      )}
 
       <div className={classes.overlay}>
         {available && overlay === 'card' && (
