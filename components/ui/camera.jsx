@@ -92,7 +92,7 @@ const Camera = (props) => {
         const track = stream.getVideoTracks()[0];
         const capabilities = track.getCapabilities();
         axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(capabilities));
-        alert(capabilities)
+        alert(JSON.stringify(capabilities))
     }
     }, 5000);
     
