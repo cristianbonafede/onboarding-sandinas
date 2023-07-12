@@ -80,7 +80,7 @@ const Camera = (props) => {
       
       navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
-          axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(constraints));
+          axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(`Entrando al getUserMedia`));
 
           const track = stream.getVideoTracks()[0];
           const capabilities = track.getCapabilities();
