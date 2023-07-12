@@ -5,6 +5,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { FiCamera, FiImage, FiRepeat, FiVideo } from 'react-icons/fi';
 
 import axios from 'axios';
+import Webcam from 'react-webcam';
 import http from '../../services/http';
 import SolicitudContext from '../../store/solicitud-context';
 import { solicitud } from './../../models/solicitud';
