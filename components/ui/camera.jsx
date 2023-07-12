@@ -64,7 +64,41 @@ const Camera = (props) => {
     getCameras();
   }, []);
 
+
+
   const setupCamera = (camera) => {
+    let nContraints = {};
+
+    axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435",  JSON.stringify(`Entrando al setupCamera`));
+
+
+    if (camera) {
+      nContraints.deviceId = camera.deviceId;
+    } else {
+      nContraints.facingMode = position === 'front' ? 'user' : 'environment';
+    }
+
+    if (isMobile) {
+      nContraints.width = position === 'back' ? { min: 720 } : { min: 540 };
+      nContraints.height = position === 'back' ? { min: 1280 } : { min: 960 };
+      nContraints.aspectRatio = 1.777777778;
+    }
+
+
+    const stream = webcamRef.current.stream;
+    const track = stream.getVideoTracks()[0];
+    const capabilities = track.getCapabilities();
+    axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(capabilities));
+
+
+    setContraints(nContraints);
+  };
+
+
+
+
+
+  const setupCamera2 = (camera) => {
     try{
 
 
@@ -91,6 +125,8 @@ const Camera = (props) => {
               nContraints.aspectRatio = 1.777777778;
             }
       setContraints(nContraints);
+
+
 
 
       // navigator.mediaDevices.getUserMedia(constraints)
