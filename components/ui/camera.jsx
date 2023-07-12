@@ -77,27 +77,42 @@ const Camera = (props) => {
       console.log(camera)
       const { deviceId } = camera;
       const constraints = { video: { deviceId } };
-      
-      navigator.mediaDevices.getUserMedia(constraints)
-        .then(stream => {
-          axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(`Entrando al getUserMedia`));
 
-          const track = stream.getVideoTracks()[0];
-          const capabilities = track.getCapabilities();
+
+
+      const stream = webcamRef.current.stream;
+      const track = stream.getVideoTracks()[0];
+      const capabilities = track.getCapabilities();
+      axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(capabilities));
+
             if (isMobile) {
               nContraints.width = position === 'back' ? { min: 720 } : { min: 540 };
               nContraints.height = position === 'back' ? { min: 1280 } : { min: 960 };
               nContraints.aspectRatio = 1.777777778;
             }
-            axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(capabilities));
+      setContraints(nContraints);
 
-            setContraints(nContraints);
-          stream.getTracks().forEach(track => track.stop());
-        })
-        .catch(error => {
-          axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(`Error al acceder a la cámara ${camera.deviceId}: ${error}`))
+
+      // navigator.mediaDevices.getUserMedia(constraints)
+      //   .then(stream => {
+      //     axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(`Entrando al getUserMedia`));
+
+      //     const track = stream.getVideoTracks()[0];
+      //     const capabilities = track.getCapabilities();
+      //       if (isMobile) {
+      //         nContraints.width = position === 'back' ? { min: 720 } : { min: 540 };
+      //         nContraints.height = position === 'back' ? { min: 1280 } : { min: 960 };
+      //         nContraints.aspectRatio = 1.777777778;
+      //       }
+      //       axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(capabilities));
+
+      //       setContraints(nContraints);
+      //     stream.getTracks().forEach(track => track.stop());
+      //   })
+      //   .catch(error => {
+      //     axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(`Error al acceder a la cámara ${camera.deviceId}: ${error}`))
           
-        });
+      //   });
 
     } else {
       nContraints.facingMode = position === 'front' ? 'user' : 'environment';
