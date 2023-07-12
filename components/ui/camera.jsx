@@ -325,6 +325,7 @@ const Camera = (props) => {
           screenshotQuality={1}
         />
       )}
+      
 
       <div className={classes.overlay}>
         {available && overlay === 'card' && (
