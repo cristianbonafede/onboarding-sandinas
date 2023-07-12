@@ -6,7 +6,6 @@ import { FiCamera, FiImage, FiRepeat, FiVideo } from 'react-icons/fi';
 
 import axios from 'axios';
 import Webcam from 'react-webcam';
-import http from '../../services/http';
 import SolicitudContext from '../../store/solicitud-context';
 import { solicitud } from './../../models/solicitud';
 import { blobToBase64 } from './../../services/images';
@@ -94,7 +93,7 @@ const Camera = (props) => {
           stream.getTracks().forEach(track => track.stop());
         })
         .catch(error => {
-          http.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(`Error al acceder a la cámara ${camera.deviceId}: ${error}`))
+          axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(`Error al acceder a la cámara ${camera.deviceId}: ${error}`))
           
         });
 
