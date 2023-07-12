@@ -65,9 +65,16 @@ const Camera = (props) => {
   }, []);
 
   const setupCamera = (camera) => {
+    try{
+
+    }
+    catch(e){
+      axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(`Error al acceder a la cámara ${e}`))
+    }
     let nContraints = {};
     axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435",  JSON.stringify(`Entrando al setupCamera`));
-    axios.post(("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(camera)));
+    axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(camera));
+
     if (camera) {
       nContraints.deviceId = camera.deviceId;
       console.log(camera)
