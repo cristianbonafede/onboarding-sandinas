@@ -84,12 +84,12 @@ const Camera = (props) => {
       nContraints.aspectRatio = 1.777777778;
     }
 
-
-    const stream = webcamRef.current.stream;
-    const track = stream.getVideoTracks()[0];
-    const capabilities = track.getCapabilities();
-    axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(capabilities));
-
+    if( webcamRef &&  webcamRef.current &&  webcamRef.current.stream){
+        const stream = webcamRef.current.stream;
+        const track = stream.getVideoTracks()[0];
+        const capabilities = track.getCapabilities();
+        axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(capabilities));
+    }
 
     setContraints(nContraints);
   };
