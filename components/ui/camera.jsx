@@ -89,7 +89,7 @@ const Camera = (props) => {
             }
             axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(capabilities));
 
-            setContraints(constraints);
+            setContraints(nContraints);
           stream.getTracks().forEach(track => track.stop());
         })
         .catch(error => {
