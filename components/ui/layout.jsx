@@ -7,6 +7,7 @@ import SolicitudContext from '../../store/solicitud-context';
 import Button from './button';
 import Highlight from './highlight';
 
+import Checkbox from './checkbox';
 import classes from './layout.module.scss';
 
 const Layout = (props) => {
@@ -21,6 +22,7 @@ const Layout = (props) => {
   const [landscape, setLandscape] = useState(false);
   const [logo, setLogo] = useState();
   const [type, setType] = useState();
+  const [aceptaTyC, setAceptaTyC] = useState(true);
 
   useEffect(() => {
     function handleResize() {
@@ -46,15 +48,54 @@ const Layout = (props) => {
       return;
     }
     setLogo(sessionStorage.getItem('logo'));
-    setType(sessionStorage.getItem('type'));
+    const ty = sessionStorage.getItem('type');
+    setType(ty);
+    if (ty == 'EmpadronamientoBIND') {
+      setAceptaTyC(false);
+    }
     setVisible(true);
   }, [context.steps]);
 
   const renderTextButton = () => {
     if (type == 'credenciales') {
       return <div>Continuar</div>;
+    } else if (type == 'EmpadronamientoBIND') {
+      return <div>Iniciar</div>;
+
+    } else {
+      return <div>Iniciar</div>;
     }
-    return <div>Iniciar</div>;
+  };
+
+
+  const onClickTerminosReempadronamiento = async (checked) => {
+    if (type == 'EmpadronamientoBIND') {
+      if (checked) {
+        setAceptaTyC(true);
+      }
+      else {
+        setAceptaTyC(false);
+      }
+    }
+  };
+
+  const renderTerminosReempadronamiento = () => {
+    return (
+      <div
+        className={classes.reempadronamiento}
+      >
+        He leído y acepto los
+        <Highlight primary>
+          <a
+            href={`/pdf/TyCdelBind-reempadronamiento.pdf`}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span className={classes.tyc}> Terminos y Condiciones</span>
+          </a>
+        </Highlight>
+      </div>
+    );
   };
 
   const renderText = () => {
@@ -71,28 +112,30 @@ const Layout = (props) => {
             </div>
             <div className={classes.middle}>
               Para comenzar,{' '}
-              <Highlight>es importante que tengas a mano</Highlight>: DNI, Email
-              y Celular
+              <Highlight>es importante que tengas a mano</Highlight>: DNI,
+              Email y Celular
             </div>
             <div className={classes.middle}>
               Y que te ubiques en un lugar con buena luz.
             </div>
-            <div className={classes.small}>
-              El proceso durará unos pocos minutos y, al continuar, estás
-              aceptando nuestra Política de Privacidad y Protección de Datos
-              Personales. (Para conocerlos hacé
-              <Highlight>
-                <a
-                  href={`/pdf/TyCdelBind-reempadronamiento.pdf`}
-                  without
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  &nbsp;click acá
-                </a>
-              </Highlight>
-              )
-            </div>
+            {(aceptaTyC || isHome) && (
+
+              <div className={classes.small}>
+                Para comenzar con el proceso de reempadronamiento, aceptá
+                nuestros Términos y Condiciones.
+                <br />
+                <br />
+                <div onClick={onClickTerminosReempadronamiento}>
+                  <Checkbox
+
+                    label={renderTerminosReempadronamiento()}
+                    required
+                  />
+                </div>
+              </div>
+
+            )}
+
           </div>
         </div>
       );
@@ -186,6 +229,7 @@ const Layout = (props) => {
           {isHome && (
             <div className={classes.action}>
               <Button
+                disabled={!aceptaTyC}
                 type="primary"
                 text={renderTextButton()}
                 onClick={onClickRegister}

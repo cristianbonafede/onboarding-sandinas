@@ -12,7 +12,7 @@ const SocialnetWebhookPage = () => {
   const context = useContext(SolicitudContext);
 
   useEffect(() => {
-    let { e, t, s, g, ref_id } = router.query;
+    let { e, t, s, g, ref_id, m } = router.query;
 
     if (e && s) {
       sessionStorage.setItem('entidad', e);
@@ -20,6 +20,7 @@ const SocialnetWebhookPage = () => {
       sessionStorage.setItem('type', t ?? '');
       sessionStorage.setItem('gestor', g ?? '');
       sessionStorage.setItem('ref_id', ref_id ?? '');
+      sessionStorage.setItem('email', m ?? '');
       context.initialize();
     }
   }, [router.query]);

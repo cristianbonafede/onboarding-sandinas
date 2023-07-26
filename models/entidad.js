@@ -132,6 +132,16 @@ const get = async () => {
           },
         ],
       },
+      {
+        url: '/productos-banco',
+        title: 'Productos del banco',
+        actions: [
+          {
+            id: 'update-productos-banco',
+            title: '',
+          },
+        ],
+      },
       { url: '/finalizar', title: '¡Felicitaciones!' },
     ];
 

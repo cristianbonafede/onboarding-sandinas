@@ -95,6 +95,8 @@ const create = async (
     genero: genero,
     documento: documento,
     documentotramite: documentotramite,
+    tipoSolicitud: sessionStorage.getItem('type')
+
   };
 
   const response = await http.post(url, data);
@@ -738,6 +740,25 @@ const updateCuentaComitente = async () => {
 
   return false;
 };
+//TODO: EDITAR ESTA FUNCION
+const updateProductosBanco = async (productosBancoId) => {
+  if (mockup) {
+    console.log('updateProductosBanco (Mockup)');
+    await mockupDelay();
+    return true;
+  }
+
+  const id = sessionStorage.getItem('solicitud');
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/${id}/productosbanco`;
+
+  const response = await http.patch(url, { productosBancoId });
+
+  if (!response.error) {
+    return true;
+  }
+
+  return false;
+};
 
 const updateDatosBind = async () => {
   if (mockup) {
@@ -923,10 +944,8 @@ const updateJubilo = async (aceptaTyc) => {
   return false;
 };
 
-
 const updateRipsa = async (aceptaTyc) => {
-
-  debugger
+  debugger;
   if (mockup) {
     console.log('Update-Ripsa (Mockup)');
     await mockupDelay();
@@ -947,7 +966,6 @@ const updateRipsa = async (aceptaTyc) => {
   window.location.replace(`error?code=${response.codigo}`);
   return false;
 };
-
 
 const updateAltaRegistroEmail = async () => {
   if (mockup) {
@@ -1096,6 +1114,9 @@ const runAction = async (action, form) => {
     case 'update-cuenta-comitente':
       return await updateCuentaComitente();
 
+    case 'update-productos-banco':
+      return await updateProductosBanco(form);
+
     case 'update-datos-bind':
       return await updateDatosBind();
 
@@ -1122,7 +1143,7 @@ const runAction = async (action, form) => {
 
     case 'update-jubilo':
       return await updateJubilo(form.aceptaTyc);
-      
+
     case 'update-ripsa':
       return await updateRipsa(form.aceptaTyc);
 
@@ -1182,6 +1203,7 @@ export const solicitud = {
   update: update,
   updatePadronA5: updatePadronA5,
   updateSujetoObligado: updateSujetoObligado,
+  updateProductosBanco: updateProductosBanco,
   updateNosis: updateNosis,
   updateWorldsys: updateWorldsys,
   updateMatriz: updateMatriz,

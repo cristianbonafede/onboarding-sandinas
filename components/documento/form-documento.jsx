@@ -47,6 +47,10 @@ const FormDocumento = () => {
     if (sessionStorage.getItem('gestor')) {
       await solicitud.updateGestor();
     }
+    if (sessionStorage.getItem('email')) {
+      await solicitud.updateEmail(sessionStorage.getItem('email'));
+    }
+
 
     if (sessionStorage.getItem('ref_id')) {
       await solicitud.updateRef_Id();

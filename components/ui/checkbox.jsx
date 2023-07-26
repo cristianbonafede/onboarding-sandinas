@@ -41,6 +41,10 @@ const Checkbox = (props) => {
   };
 
   const onClick = () => {
+    if (!name) {
+      setChecked(!checked);
+      return;
+    }
     let nForm = {};
     nForm[name] = checked ? '' : 'true';
     context.form.setFieldsValue(nForm);

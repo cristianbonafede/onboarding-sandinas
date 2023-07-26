@@ -3,14 +3,13 @@ import { Tooltip } from 'antd';
 import Image from 'next/image';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { FiCamera, FiImage, FiRepeat, FiVideo } from 'react-icons/fi';
-
-import axios from 'axios';
 import Webcam from 'react-webcam';
+
 import SolicitudContext from '../../store/solicitud-context';
 import { solicitud } from './../../models/solicitud';
 import { blobToBase64 } from './../../services/images';
-import classes from './camera.module.scss';
 
+import classes from './camera.module.scss';
 
 const Camera = (props) => {
   const { type, position, overlay, duration, upload, onSubmit } = props;
@@ -20,7 +19,7 @@ const Camera = (props) => {
   const mediaRecorderRef = useRef(null);
   const fileRef = useRef(null);
 
-  const [cameras, setCameras] = useState();
+  const [cameras, setCameras] = useState([]);
   const [currentCamera, setCurrentCamera] = useState();
   const [colorPrimary, setColorPrimary] = useState();
   const [colorText, setColorText] = useState();
@@ -40,43 +39,27 @@ const Camera = (props) => {
     setColorText(sessionStorage.getItem('color-text'));
   }, []);
 
-
-
-
-
   // Cargar camaras
   useEffect(() => {
-    async function getCameras() {
-      debugger
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      console.log(devices)
-      const nCameras = devices.filter(({ kind }) => kind === 'videoinput');
+    const jsonCameras = sessionStorage.getItem('cameras');
+    let nCameras = JSON.parse(jsonCameras);
 
-      setCameras(nCameras);
-
-      const savedCamera = sessionStorage.getItem('camera');
-      const nCamera = savedCamera ? JSON.parse(savedCamera) : undefined;
-      setupCamera(nCamera);
-
-
+    if (isMobile) {
+      nCameras = position === 'back' ?
+        nCameras.filter(x => x.facingMode.includes('environment')) :
+        nCameras.filter(x => x.facingMode.includes('user'));
     }
 
-    getCameras();
+    setCameras(nCameras);
+    setupCamera();
   }, []);
 
+  const setupCamera = (camera = undefined) => {
+    const deviceId = selectCamera(camera);
 
-
-  const setupCamera = (camera) => {
-    let nContraints = {};
-
-    axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435",  JSON.stringify(`Entrando al setupCamera ${camera?.deviceId}`));
-
-
-    if (camera) {
-      nContraints.deviceId = camera.deviceId;
-    } else {
-      nContraints.facingMode = position === 'front' ? 'user' : 'environment';
-    }
+    let nContraints = {
+      deviceId: deviceId
+    };
 
     if (isMobile) {
       nContraints.width = position === 'back' ? { min: 720 } : { min: 540 };
@@ -85,109 +68,40 @@ const Camera = (props) => {
     }
 
     setContraints(nContraints);
-
-    const timer = setTimeout(() => {
-      if( webcamRef &&  webcamRef.current &&  webcamRef.current.stream){
-        const stream = webcamRef.current.stream;
-        const track = stream.getVideoTracks()[0];
-        const capabilities = track.getCapabilities();
-        axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(capabilities));
-        alert(JSON.stringify(capabilities))
-    }
-    }, 5000);
-    
-    
-
-
-
   };
 
-
-
-
-
-  const setupCamera2 = (camera) => {
-    try{
-
-
-    let nContraints = {};
-    axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435",  JSON.stringify(`Entrando al setupCamera ${camera?.deviceId}`));
-    axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(camera));
-
+  const selectCamera = (camera) => {
     if (camera) {
-      nContraints.deviceId = camera.deviceId;
-      console.log(camera)
-      const { deviceId } = camera;
-      const constraints = { video: { deviceId } };
-
-
-
-      const stream = webcamRef.current.stream;
-      const track = stream.getVideoTracks()[0];
-      const capabilities = track.getCapabilities();
-      axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(capabilities));
-
-            if (isMobile) {
-              nContraints.width = position === 'back' ? { min: 720 } : { min: 540 };
-              nContraints.height = position === 'back' ? { min: 1280 } : { min: 960 };
-              nContraints.aspectRatio = 1.777777778;
-            }
-      setContraints(nContraints);
-
-
-
-
-      // navigator.mediaDevices.getUserMedia(constraints)
-      //   .then(stream => {
-      //     axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(`Entrando al getUserMedia`));
-
-      //     const track = stream.getVideoTracks()[0];
-      //     const capabilities = track.getCapabilities();
-      //       if (isMobile) {
-      //         nContraints.width = position === 'back' ? { min: 720 } : { min: 540 };
-      //         nContraints.height = position === 'back' ? { min: 1280 } : { min: 960 };
-      //         nContraints.aspectRatio = 1.777777778;
-      //       }
-      //       axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(capabilities));
-
-      //       setContraints(nContraints);
-      //     stream.getTracks().forEach(track => track.stop());
-      //   })
-      //   .catch(error => {
-      //     axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(`Error al acceder a la cámara ${camera.deviceId}: ${error}`))
-          
-      //   });
-
-    } else {
-      nContraints.facingMode = position === 'front' ? 'user' : 'environment';
-        if (isMobile) {
-          nContraints.width = position === 'back' ? { min: 720 } : { min: 540 };
-          nContraints.height = position === 'back' ? { min: 1280 } : { min: 960 };
-          nContraints.aspectRatio = 1.777777778;
-        }
-        setContraints(nContraints);
+      return camera.deviceId;
     }
+
+    if (!isMobile || cameras.length === 1) {
+      return cameras[0].deviceId;
+    }
+
+    if (position == 'back') {
+      const focusDistance = cameras.sort((a, b) => (b.focusDistance?.min ?? 0) - (a.focusDistance?.min ?? 0));
+      const focusMode = focusDistance.filter(x => x.focusMode.includes('continuous'));
+
+      if (focusMode.length > 0) {
+        return focusMode[0].deviceId;
+      }
+
+      return focusDistance[0].deviceId;
+    }
+
+    return cameras[0].deviceId;
   }
-  catch(e){
-    axios.post("https://webhook.site/f5fe299b-f478-428f-a206-6e25dfb52435", JSON.stringify(`Error al acceder a la cámara ${e}`))
-  }
-  };
 
   const onChangeCamera = () => {
-    let index = -1;
-
-    if (currentCamera) {
-      index = cameras.indexOf(currentCamera);
-
-      if (index === cameras.length - 1) {
-        index = -1;
-      }
-    } else {
-      index = contraints?.facingMode === 'user' ? 0 : -1;
+    let index = currentCamera ? cameras.indexOf(currentCamera) : -1;
+    if (index === cameras.length - 1) {
+      index = -1;
     }
 
     const nCamera = cameras[index + 1];
     sessionStorage.setItem('camera', JSON.stringify(nCamera));
+
     setCurrentCamera(nCamera);
     setupCamera(nCamera);
   };
@@ -386,7 +300,6 @@ const Camera = (props) => {
           screenshotQuality={1}
         />
       )}
-      
 
       <div className={classes.overlay}>
         {available && overlay === 'card' && (
@@ -438,7 +351,7 @@ const Camera = (props) => {
                 <div className={classes.placeholder}></div>
               </div>
             )}
-            {true && (
+            {cameras && cameras.length > 1 && (
               <div className={classes.action}>
                 <Tooltip
                   visible={true}

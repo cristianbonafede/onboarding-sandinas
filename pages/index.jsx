@@ -15,13 +15,14 @@ const HomePage = () => {
     sessionStorage.removeItem('status');
     sessionStorage.removeItem('solicitud');
     sessionStorage.removeItem('gestor');
+    sessionStorage.removeItem('email');
     sessionStorage.removeItem('ref_id');
     sessionStorage.removeItem('step');
     sessionStorage.removeItem('otpReadonly');
   }, []);
 
   useEffect(() => {
-    let { e, t, s, g, ref_id } = router.query;
+    let { e, t, s, g, ref_id, m } = router.query;
 
     if (!e) {
       return;
@@ -32,6 +33,7 @@ const HomePage = () => {
     sessionStorage.setItem('solicitud', s ?? '');
     sessionStorage.setItem('gestor', g ?? '');
     sessionStorage.setItem('ref_id', ref_id ?? '');
+    sessionStorage.setItem('email', m ?? '');
     context.initialize();
   }, [router.query]);
 

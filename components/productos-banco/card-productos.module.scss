@@ -1,0 +1,32 @@
+.card {
+  border-style: solid;
+  border-width: 2px;
+  padding: 1rem;
+  margin-top: 2rem;
+  border-radius: 8px;
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: 2.7rem;
+
+    .titulo {
+      min-width: 60%;
+      margin-bottom: 0px;
+      align-self: center;
+      font-size: 1.18rem;
+    }
+
+    .image {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+  }
+
+  p {
+    margin-top: 1rem;
+    font-size: 15px;
+  }
+}

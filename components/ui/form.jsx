@@ -7,7 +7,8 @@ import { FormContextProvider } from '../../store/form-context';
 import classes from './form.module.scss';
 
 const Form = (props) => {
-  const { children, centered, values, renderButtons, onSubmit } = props;
+  const { children, centered, values, renderButtons, onSubmit, labelButton } =
+    props;
 
   const [form] = Formd.useForm();
   const [loading, setLoading] = useState(false);
@@ -23,6 +24,8 @@ const Form = (props) => {
     await onSubmit(values);
     setLoading(false);
   };
+
+  const buttonText = labelButton || 'Siguiente';
 
   return (
     <FormContextProvider form={form}>
@@ -41,7 +44,7 @@ const Form = (props) => {
           <Button
             block
             type="primary"
-            text="Siguiente"
+            text={buttonText}
             htmlType="submit"
             loading={loading}
           />

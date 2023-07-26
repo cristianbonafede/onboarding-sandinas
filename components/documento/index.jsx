@@ -10,6 +10,7 @@ import Instructions from './../ui/instructions';
 import FormImages from './form-images';
 
 import { solicitud } from '../../models/solicitud';
+import { startCamera } from '../../services/camera';
 import SolicitudContext from '../../store/solicitud-context';
 
 import classes from './index.module.scss';
@@ -30,7 +31,7 @@ const Documento = () => {
       }
 
       try {
-        // await startCamera();
+        await startCamera();
       } catch (error) {
         context.changeScreen(solicitud.screens.cameraBlocked);
       } finally {
