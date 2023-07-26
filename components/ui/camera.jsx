@@ -45,20 +45,28 @@ const Camera = (props) => {
     let nCameras = JSON.parse(jsonCameras);
 
     if (isMobile) {
-      nCameras = position === 'back' ?
-        nCameras.filter(x => x.facingMode.includes('environment')) :
-        nCameras.filter(x => x.facingMode.includes('user'));
+      nCameras =
+        position === 'back'
+          ? nCameras.filter((x) => x.facingMode.includes('environment'))
+          : nCameras.filter((x) => x.facingMode.includes('user'));
     }
 
     setCameras(nCameras);
-    setupCamera();
   }, []);
+
+  useEffect(() => {
+    if (cameras.length === 0) {
+      return;
+    }
+
+    setupCamera();
+  }, [cameras]);
 
   const setupCamera = (camera = undefined) => {
     const deviceId = selectCamera(camera);
 
     let nContraints = {
-      deviceId: deviceId
+      deviceId: deviceId,
     };
 
     if (isMobile) {
@@ -80,8 +88,12 @@ const Camera = (props) => {
     }
 
     if (position == 'back') {
-      const focusDistance = cameras.sort((a, b) => (b.focusDistance?.min ?? 0) - (a.focusDistance?.min ?? 0));
-      const focusMode = focusDistance.filter(x => x.focusMode.includes('continuous'));
+      const focusDistance = cameras.sort(
+        (a, b) => (b.focusDistance?.min ?? 0) - (a.focusDistance?.min ?? 0)
+      );
+      const focusMode = focusDistance.filter((x) =>
+        x.focusMode.includes('continuous')
+      );
 
       if (focusMode.length > 0) {
         return focusMode[0].deviceId;
@@ -91,7 +103,7 @@ const Camera = (props) => {
     }
 
     return cameras[0].deviceId;
-  }
+  };
 
   const onChangeCamera = () => {
     let index = currentCamera ? cameras.indexOf(currentCamera) : -1;
