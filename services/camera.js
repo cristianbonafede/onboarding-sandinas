@@ -11,8 +11,6 @@ export const startCamera = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
     const cameras = devices.filter((x) => x.kind === 'videoinput');
 
-    alert('Camaras: ' + JSON.stringify(cameras));
-
     for (let i = 0; i < cameras.length; i++) {
       const camera = cameras[i];
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -23,8 +21,6 @@ export const startCamera = async () => {
       nCameras.push(capabilities);
       track.stop();
     }
-
-    alert('Capabilities: ' + JSON.stringify(cameras));
 
     sessionStorage.setItem('cameras', JSON.stringify(nCameras));
   } catch (error) {
