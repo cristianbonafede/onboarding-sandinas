@@ -14,6 +14,7 @@ import classes from './camera.module.scss';
 const Camera = (props) => {
   const { type, position, overlay, duration, upload, onSubmit } = props;
 
+  const DEBUG_MODE = true;
   const context = useContext(SolicitudContext);
   const webcamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -63,10 +64,11 @@ const Camera = (props) => {
   }, [cameras]);
 
   const setupCamera = (camera = undefined) => {
-    const deviceId = selectCamera(camera);
+    camera = selectCamera(camera);
+    setCurrentCamera(camera);
 
     let nContraints = {
-      deviceId: deviceId,
+      deviceId: camera.deviceId,
     };
 
     if (isMobile) {
@@ -80,29 +82,40 @@ const Camera = (props) => {
 
   const selectCamera = (camera) => {
     if (camera) {
-      return camera.deviceId;
+      camera.selector = `Cambio de camara (${cameras.length} camaras)`;
+      return camera;
     }
 
-    if (!isMobile || cameras.length === 1) {
-      return cameras[0].deviceId;
+    if (!isMobile) {
+      cameras[0].selector = `Version web (${cameras.length} camaras)`;
+      return cameras[0];
     }
 
-    if (position == 'back') {
-      const focusDistance = cameras.sort(
-        (a, b) => (b.focusDistance?.min ?? 0) - (a.focusDistance?.min ?? 0)
-      );
-      const focusMode = focusDistance.filter((x) =>
-        x.focusMode.includes('continuous')
-      );
-
-      if (focusMode.length > 0) {
-        return focusMode[0].deviceId;
-      }
-
-      return focusDistance[0].deviceId;
+    if (cameras.length === 1) {
+      cameras[0].selector = 'Camara unica';
+      return cameras[0];
     }
 
-    return cameras[0].deviceId;
+    if (position == 'front') {
+      cameras[0].selector = `Camara frontal (${cameras.length} camaras)`;
+      return cameras[0];
+    }
+
+    const focusDistance = cameras.sort(
+      (a, b) => (b.focusDistance?.min ?? 0) - (a.focusDistance?.min ?? 0)
+    );
+
+    const focusMode = focusDistance.filter((x) =>
+      x.focusMode.includes('continuous')
+    );
+
+    if (focusMode.length > 0) {
+      focusMode[0].selector = `Camara trasera con focus mode continuous (${focusMode.length} camaras)`;
+      return focusMode[0];
+    }
+
+    focusDistance[0].selector = `Camara trasera con focus distance mayor (${focusDistance.length} camaras)`;
+    return focusDistance[0];
   };
 
   const onChangeCamera = () => {
@@ -114,7 +127,6 @@ const Camera = (props) => {
     const nCamera = cameras[index + 1];
     sessionStorage.setItem('camera', JSON.stringify(nCamera));
 
-    setCurrentCamera(nCamera);
     setupCamera(nCamera);
   };
 
@@ -311,6 +323,31 @@ const Camera = (props) => {
           screenshotFormat="image/jpeg"
           screenshotQuality={1}
         />
+      )}
+
+      {DEBUG_MODE && (
+        <div className={classes.debug}>
+          <div>
+            <span className={classes.value}>DeviceId: </span>
+            {currentCamera?.deviceId ?? '-'}
+          </div>
+          <div>
+            <span className={classes.value}>FocusDistance: </span>
+            {currentCamera?.focusDistance?.min ?? '-'}
+          </div>
+          <div>
+            <span className={classes.value}>FocusMode: </span>
+            {currentCamera?.focusMode ?? '-'}
+          </div>
+          <div>
+            <span className={classes.value}>FrameRate: </span>
+            {currentCamera?.frameRate?.max ?? '-'}
+          </div>
+          <div>
+            <span className={classes.value}>Selector: </span>
+            {currentCamera?.selector ?? '-'}
+          </div>
+        </div>
       )}
 
       <div className={classes.overlay}>
