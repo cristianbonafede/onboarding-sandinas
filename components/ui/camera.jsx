@@ -42,17 +42,21 @@ const Camera = (props) => {
 
   // Cargar camaras
   useEffect(() => {
-    const jsonCameras = sessionStorage.getItem('cameras');
-    let nCameras = JSON.parse(jsonCameras);
+    try {
+      const jsonCameras = sessionStorage.getItem('cameras');
+      let nCameras = JSON.parse(jsonCameras);
 
-    if (isMobile) {
-      nCameras =
-        position === 'back'
-          ? nCameras.filter((x) => x.facingMode.includes('environment'))
-          : nCameras.filter((x) => x.facingMode.includes('user'));
+      if (isMobile) {
+        nCameras =
+          position === 'back'
+            ? nCameras.filter((x) => x.facingMode.includes('environment'))
+            : nCameras.filter((x) => x.facingMode.includes('user'));
+      }
+
+      setCameras(nCameras);
+    } catch (error) {
+      alert('UseEffect: ' + error);
     }
-
-    setCameras(nCameras);
   }, []);
 
   useEffect(() => {
@@ -64,58 +68,66 @@ const Camera = (props) => {
   }, [cameras]);
 
   const setupCamera = (camera = undefined) => {
-    camera = selectCamera(camera);
-    setCurrentCamera(camera);
+    try {
+      camera = selectCamera(camera);
+      setCurrentCamera(camera);
 
-    let nContraints = {
-      deviceId: camera.deviceId,
-    };
+      let nContraints = {
+        deviceId: camera.deviceId,
+      };
 
-    if (isMobile) {
-      nContraints.width = position === 'back' ? { min: 720 } : { min: 540 };
-      nContraints.height = position === 'back' ? { min: 1280 } : { min: 960 };
-      nContraints.aspectRatio = 1.777777778;
+      if (isMobile) {
+        nContraints.width = position === 'back' ? { min: 720 } : { min: 540 };
+        nContraints.height = position === 'back' ? { min: 1280 } : { min: 960 };
+        nContraints.aspectRatio = 1.777777778;
+      }
+
+      setContraints(nContraints);
+    } catch (error) {
+      alert('SetupCamera: ' + error);
     }
-
-    setContraints(nContraints);
   };
 
   const selectCamera = (camera) => {
-    if (camera) {
-      camera.selector = `Cambio de camara (${cameras.length} camaras)`;
-      return camera;
+    try {
+      if (camera) {
+        camera.selector = `Cambio de camara (${cameras.length} camaras)`;
+        return camera;
+      }
+
+      if (!isMobile) {
+        cameras[0].selector = `Version web (${cameras.length} camaras)`;
+        return cameras[0];
+      }
+
+      if (cameras.length === 1) {
+        cameras[0].selector = 'Camara unica';
+        return cameras[0];
+      }
+
+      if (position == 'front') {
+        cameras[0].selector = `Camara frontal (${cameras.length} camaras)`;
+        return cameras[0];
+      }
+
+      const focusDistance = cameras.sort(
+        (a, b) => (b.focusDistance?.min ?? 0) - (a.focusDistance?.min ?? 0)
+      );
+
+      const focusMode = focusDistance.filter((x) =>
+        x.focusMode.includes('continuous')
+      );
+
+      if (focusMode.length > 0) {
+        focusMode[0].selector = `Camara trasera con focus mode continuous (${focusMode.length} camaras)`;
+        return focusMode[0];
+      }
+
+      focusDistance[0].selector = `Camara trasera con focus distance mayor (${focusDistance.length} camaras)`;
+      return focusDistance[0];
+    } catch (error) {
+      alert('SelectCamera: ' + error);
     }
-
-    if (!isMobile) {
-      cameras[0].selector = `Version web (${cameras.length} camaras)`;
-      return cameras[0];
-    }
-
-    if (cameras.length === 1) {
-      cameras[0].selector = 'Camara unica';
-      return cameras[0];
-    }
-
-    if (position == 'front') {
-      cameras[0].selector = `Camara frontal (${cameras.length} camaras)`;
-      return cameras[0];
-    }
-
-    const focusDistance = cameras.sort(
-      (a, b) => (b.focusDistance?.min ?? 0) - (a.focusDistance?.min ?? 0)
-    );
-
-    const focusMode = focusDistance.filter((x) =>
-      x.focusMode.includes('continuous')
-    );
-
-    if (focusMode.length > 0) {
-      focusMode[0].selector = `Camara trasera con focus mode continuous (${focusMode.length} camaras)`;
-      return focusMode[0];
-    }
-
-    focusDistance[0].selector = `Camara trasera con focus distance mayor (${focusDistance.length} camaras)`;
-    return focusDistance[0];
   };
 
   const onChangeCamera = () => {
