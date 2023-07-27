@@ -1,26 +1,32 @@
 export const startCamera = async () => {
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: false,
-      video: true,
-    });
-
     let nCameras = [];
-    const tracks = stream.getTracks();
 
-    alert('Tracks: ' + tracks.length);
-
-    for (let i = 0; i < tracks.length; i++) {
-      const capabilities = tracks[i].getCapabilities();
-      nCameras.push(capabilities);
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert('La API MediaDevices no es compatible con este navegador.');
+      sessionStorage.setItem('cameras', JSON.stringify(nCameras));
+      return;
     }
 
-    alert(JSON.stringify(nCameras));
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const cameras = devices.filter((x) => x.kind === 'videoinput');
 
-    const json = JSON.stringify(nCameras);
-    sessionStorage.setItem('cameras', json);
+    alert('Camaras: ' + JSON.stringify(cameras));
 
-    stream.getTracks().forEach((track) => track.stop());
+    for (let i = 0; i < cameras.length; i++) {
+      const camera = cameras[i];
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { deviceId: camera.deviceId },
+      });
+      const track = stream.getVideoTracks()[0];
+      const capabilities = track.getCapabilities();
+      nCameras.push(capabilities);
+      track.stop();
+    }
+
+    alert('Capabilities: ' + JSON.stringify(cameras));
+
+    sessionStorage.setItem('cameras', JSON.stringify(nCameras));
   } catch (error) {
     alert('StartCamera: ' + error);
   }
