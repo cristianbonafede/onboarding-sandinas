@@ -115,7 +115,7 @@ const Camera = (props) => {
       );
 
       const focusMode = focusDistance.filter(
-        (x) => x.focusMode != null && x.focusMode.includes('continuous')
+        (x) => x.focusMode && x.focusMode.includes('continuous')
       );
 
       if (focusMode.length > 0) {
