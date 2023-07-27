@@ -11,11 +11,12 @@ export const startCamera = async () => {
     for (let i = 0; i < tracks.length; i++) {
       const capabilities = tracks[i].getCapabilities();
       nCameras.push(capabilities);
-      tracks[i].stop();
     }
 
     const json = JSON.stringify(nCameras);
     sessionStorage.setItem('cameras', json);
+
+    stream.getTracks().forEach((track) => track.stop());
   } catch (error) {
     alert('StartCamera: ' + error);
   }
