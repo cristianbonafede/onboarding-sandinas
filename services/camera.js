@@ -13,6 +13,8 @@ export const startCamera = async () => {
       nCameras.push(capabilities);
     }
 
+    alert(nCameras);
+
     const json = JSON.stringify(nCameras);
     sessionStorage.setItem('cameras', json);
 
