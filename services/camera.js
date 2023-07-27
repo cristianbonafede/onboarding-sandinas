@@ -8,6 +8,8 @@ export const startCamera = async () => {
     let nCameras = [];
     const tracks = stream.getTracks();
 
+    alert('Tracks: ' + tracks.length);
+
     for (let i = 0; i < tracks.length; i++) {
       const capabilities = tracks[i].getCapabilities();
       nCameras.push(capabilities);
