@@ -46,20 +46,24 @@ const Camera = (props) => {
     const setup = async () => {
       try {
         let nCameras = await loadCameras();
-  
+
         if (isMobile) {
           nCameras =
             position === 'back'
               ? nCameras.filter((x) => x.facingMode.includes('environment'))
               : nCameras.filter((x) => x.facingMode.includes('user'));
         }
-  
+
         setCameras(nCameras);
       } catch (error) {
-        alert('UseEffect: ' + error);
+        if (DEBUG_MODE) {
+          alert(error);
+        }
+
+        console.error(error);
       }
     };
-    
+
     setup();
   }, []);
 
@@ -322,6 +326,10 @@ const Camera = (props) => {
   }, [recordedChunks]);
 
   if (context.screen !== solicitud.screens.camera) {
+    return;
+  }
+
+  if (!currentCamera || !contraints) {
     return;
   }
 
