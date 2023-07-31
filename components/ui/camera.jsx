@@ -7,6 +7,7 @@ import Webcam from 'react-webcam';
 
 import SolicitudContext from '../../store/solicitud-context';
 import { solicitud } from './../../models/solicitud';
+import { loadCameras } from './../../services/camera';
 import { blobToBase64 } from './../../services/images';
 
 import classes from './camera.module.scss';
@@ -42,21 +43,24 @@ const Camera = (props) => {
 
   // Cargar camaras
   useEffect(() => {
-    try {
-      const jsonCameras = sessionStorage.getItem('cameras');
-      let nCameras = JSON.parse(jsonCameras);
-
-      if (isMobile) {
-        nCameras =
-          position === 'back'
-            ? nCameras.filter((x) => x.facingMode.includes('environment'))
-            : nCameras.filter((x) => x.facingMode.includes('user'));
+    const setup = async () => {
+      try {
+        let nCameras = await loadCameras();
+  
+        if (isMobile) {
+          nCameras =
+            position === 'back'
+              ? nCameras.filter((x) => x.facingMode.includes('environment'))
+              : nCameras.filter((x) => x.facingMode.includes('user'));
+        }
+  
+        setCameras(nCameras);
+      } catch (error) {
+        alert('UseEffect: ' + error);
       }
-
-      setCameras(nCameras);
-    } catch (error) {
-      alert('UseEffect: ' + error);
-    }
+    };
+    
+    setup();
   }, []);
 
   useEffect(() => {
@@ -137,8 +141,6 @@ const Camera = (props) => {
     }
 
     const nCamera = cameras[index + 1];
-    sessionStorage.setItem('camera', JSON.stringify(nCamera));
-
     setupCamera(nCamera);
   };
 

@@ -1,4 +1,15 @@
-export const startCamera = async () => {
+export const startCameras = async () => {
+  const stream = await navigator.mediaDevices.getUserMedia({
+    audio: false,
+    video: true,
+  });
+
+  stream.getVideoTracks().forEach((track) => track.stop());
+  await new Promise(resolve => setTimeout(resolve, 1000));
+};
+
+
+export const loadCameras = async () => {
   try {
     let nCameras = [];
 
@@ -22,7 +33,7 @@ export const startCamera = async () => {
       track.stop();
     }
 
-    sessionStorage.setItem('cameras', JSON.stringify(nCameras));
+    return nCameras;
   } catch (error) {
     alert('StartCamera: ' + error);
   }

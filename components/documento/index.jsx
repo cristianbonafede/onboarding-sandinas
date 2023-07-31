@@ -10,12 +10,12 @@ import Instructions from './../ui/instructions';
 import FormImages from './form-images';
 
 import { solicitud } from '../../models/solicitud';
-import { startCamera } from '../../services/camera';
+import { startCameras } from '../../services/camera';
 import SolicitudContext from '../../store/solicitud-context';
 
 import classes from './index.module.scss';
 
-const Documento = () => {
+const Documento = () => { 
   const router = useRouter();
   const context = useContext(SolicitudContext);
 
@@ -31,15 +31,14 @@ const Documento = () => {
       }
 
       try {
-        await startCamera();
+        await startCameras();
       } catch (error) {
         context.changeScreen(solicitud.screens.cameraBlocked);
-      } finally {
-        setColorPrimary(sessionStorage.getItem('color-primary'));
-        sessionStorage.removeItem('camera');
-        setVisible(true);
-        context.updateStep(router);
-      }
+      } 
+       
+      setColorPrimary(sessionStorage.getItem('color-primary'));
+      setVisible(true);
+      context.updateStep(router);
     };
 
     validateStep();

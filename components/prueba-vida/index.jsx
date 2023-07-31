@@ -8,7 +8,7 @@ import Instructions from '../ui/instructions';
 import FormVideo from './form-video';
 
 import { solicitud } from '../../models/solicitud';
-import { startCamera } from '../../services/camera';
+import { startCameras } from '../../services/camera';
 import SolicitudContext from '../../store/solicitud-context';
 
 import Highlight from './../ui/highlight';
@@ -29,14 +29,13 @@ const PruebaVida = () => {
       }
 
       try {
-        await startCamera();
+        await startCameras();
       } catch (error) {
         context.changeScreen(solicitud.screens.cameraBlocked);
-      } finally {
-        sessionStorage.removeItem('camera');
-        setVisible(true);
-        context.updateStep(router);
-      }
+      } 
+
+      setVisible(true);
+      context.updateStep(router);
     };
 
     validateStep();
