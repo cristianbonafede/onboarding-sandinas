@@ -33,9 +33,9 @@ export const loadCameras = async () => {
 
     const capabilities = track.getCapabilities();
     nCameras.push(capabilities);
-
-    track.stop();
   }
+
+  stream.getVideoTracks().forEach((track) => track.stop());
 
   return nCameras;
 };
