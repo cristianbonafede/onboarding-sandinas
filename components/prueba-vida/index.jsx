@@ -30,7 +30,6 @@ const PruebaVida = () => {
 
       try {
         await startCamera();
-        await new Promise(resolve => setTimeout(resolve, 2000));
       } catch (error) {
         context.changeScreen(solicitud.screens.cameraBlocked);
       } finally {
@@ -62,7 +61,7 @@ const PruebaVida = () => {
         A continuación, vamos a realizar una
         <Highlight primary>prueba de vida</Highlight>
         para validar tu identidad. Grabaremos un video de 4 segundos donde se
-        tiene que ver tu rostro.
+        tiene que ver tu rostro. 
         <Highlight primary>
           Ubicá tu rostro dentro de la marca indicada,
         </Highlight>

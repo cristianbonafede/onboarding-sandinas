@@ -32,7 +32,6 @@ const Documento = () => {
 
       try {
         await startCamera();
-        await new Promise(resolve => setTimeout(resolve, 2000));
       } catch (error) {
         context.changeScreen(solicitud.screens.cameraBlocked);
       } finally {
