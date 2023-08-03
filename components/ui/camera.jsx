@@ -15,7 +15,7 @@ import classes from './camera.module.scss';
 const Camera = (props) => {
   const { type, position, overlay, duration, upload, onSubmit } = props;
 
-  const DEBUG_MODE = true;
+  const DEBUG_MODE = false;
   const context = useContext(SolicitudContext);
   const webcamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -92,7 +92,10 @@ const Camera = (props) => {
 
       setContraints(nContraints);
     } catch (error) {
-      alert('SetupCamera: ' + error);
+      if (DEBUG_MODE) {
+        alert(error);
+      }
+      console.error(error);
     }
   };
 
@@ -134,7 +137,10 @@ const Camera = (props) => {
       focusDistance[0].selector = `Camara trasera con focus distance mayor (${focusDistance.length} camaras)`;
       return focusDistance[0];
     } catch (error) {
-      alert('SelectCamera: ' + error);
+      if (DEBUG_MODE) {
+        alert(error);
+      }
+      console.error(error);
     }
   };
 
