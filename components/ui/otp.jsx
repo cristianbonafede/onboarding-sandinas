@@ -58,13 +58,19 @@ const Otp = (props) => {
 
     setValues(nValues);
     context.form.setFieldsValue({ otp: nValues.join('') });
-    
-// Quitar el enfoque cuando completa el OTP
-        if (currentIndex === 3) {
-          inputRef.current.blur(); 
-        }
-  };
 
+    // Quitar el enfoque cuando completa el OTP
+    if (currentIndex === 3) {
+      inputRef.current.blur();
+    }
+  };
+  const onFocus = (event) => {
+    const nValues = [...values];
+    if (nValues.findIndex(x => x === '') === -1) {
+      setValues(new Array(size).fill(''));
+      setActive(0);
+    }
+  };
   const validator = (size) => {
     return () => ({
       validator(_, value) {
@@ -93,6 +99,8 @@ const Otp = (props) => {
             value={values[index]}
             onKeyDown={(e) => onKeyDown(e, index)}
             onChange={onChange}
+            onFocus={onFocus}
+            on
             style={renderStyle(index === active)}
           />
         ))}
