@@ -6,6 +6,7 @@ import SolicitudContext from '../../store/solicitud-context';
 import CardProducts from '../productos-banco/card-productos';
 import Checklist from '../ui/checklist';
 import Header from '../ui/header';
+import Spinner from '../ui/spinner';
 import classes from './index.module.scss';
 
 const ProductosBanco = () => {
@@ -34,7 +35,7 @@ const ProductosBanco = () => {
   };
 
   if (!visible) {
-    return <div className="not-allowed"></div>;
+    return <Spinner visible={true} />;
   }
 
   return (

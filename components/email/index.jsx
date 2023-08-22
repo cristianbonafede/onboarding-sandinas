@@ -10,6 +10,7 @@ import FormOtp from './form-otp';
 import { solicitud } from '../../models/solicitud';
 import SolicitudContext from '../../store/solicitud-context';
 
+import Spinner from '../ui/spinner';
 import Highlight from './../ui/highlight';
 import classes from './index.module.scss';
 
@@ -40,7 +41,7 @@ const Email = () => {
   };
 
   if (!visible) {
-    return <div className="not-allowed"></div>;
+    return <Spinner visible={true} />;
   }
 
   const renderText = () => {
@@ -49,8 +50,9 @@ const Email = () => {
       return (
         <div>
           Ahora necesitamos
-          <Highlight primary>validar tu correo electrónico</Highlight> al que enviaremos
-          información sobre tus <Highlight primary>facturas y comprobantes de pago.</Highlight>
+          <Highlight primary>validar tu correo electrónico</Highlight> al que
+          enviaremos información sobre tus{' '}
+          <Highlight primary>facturas y comprobantes de pago.</Highlight>
         </div>
       );
     }
@@ -63,11 +65,9 @@ const Email = () => {
         <Highlight primary>código numérico</Highlight>para validar que sea
         correcto.
       </div>
-
     );
   };
   return (
-
     <div className={classes.documento}>
       <Header />
       <Instructions
@@ -75,7 +75,6 @@ const Email = () => {
         nextScreen={solicitud.screens.form}
       >
         {renderText()}
-
       </Instructions>
       <FormEmail />
       <FormOtp />

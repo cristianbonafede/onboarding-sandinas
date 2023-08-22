@@ -9,6 +9,7 @@ import FormJubilo from './form-jubilo';
 import { solicitud } from '../../models/solicitud';
 import SolicitudContext from '../../store/solicitud-context';
 
+import Spinner from '../ui/spinner';
 import Highlight from './../ui/highlight';
 import classes from './index.module.scss';
 
@@ -38,7 +39,7 @@ const Formulario = () => {
   };
 
   if (!visible) {
-    return <div className="not-allowed"></div>;
+    return <Spinner visible={true} />;
   }
 
   return (

@@ -8,6 +8,7 @@ import FormCuentaComitente from './form-cuenta-comitente';
 import { solicitud } from '../../models/solicitud';
 import SolicitudContext from '../../store/solicitud-context';
 
+import Spinner from '../ui/spinner';
 import classes from './index.module.scss';
 
 const CuentaComitente = () => {
@@ -37,7 +38,7 @@ const CuentaComitente = () => {
   };
 
   if (!visible) {
-    return <div className="not-allowed"></div>;
+    return <Spinner visible={true} />;
   }
 
   return (

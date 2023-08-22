@@ -16,6 +16,15 @@ const Button = (props) => {
   }, []);
 
   const renderStyles = () => {
+    if (disabled) {
+      return {
+        backgroundColor: '#d1d1d1',
+        color: '#888888',
+        cursor: 'not-allowed',
+        boxShadow: 'none',
+      };
+    }
+    
     if (type === 'secondary') {
       return {
         color: colorPrimary,

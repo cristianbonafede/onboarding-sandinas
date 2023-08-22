@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Tooltip } from 'antd';
 import Image from 'next/image';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { FiCamera, FiImage, FiRepeat, FiVideo } from 'react-icons/fi';
 import Webcam from 'react-webcam';
 
@@ -9,6 +9,7 @@ import SolicitudContext from '../../store/solicitud-context';
 import { solicitud } from './../../models/solicitud';
 import { loadCameras } from './../../services/camera';
 import { blobToBase64 } from './../../services/images';
+import { logInformation } from './../../services/logger';
 
 import classes from './camera.module.scss';
 
@@ -29,9 +30,13 @@ const Camera = (props) => {
   const [available, setAvailable] = useState(false);
   const [capturing, setCapturing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [recordedChunks, setRecordedChunks] = useState([]);
+  const [finished, setFinished] = useState(false);
 
   const [contraints, setContraints] = useState();
+
+  let blobs = [];
+  let timer = duration;
+  const [timerFormatted, setTimerFormatted] = useState();
 
   const isMobile = window.innerWidth <= window.innerHeight;
 
@@ -74,6 +79,35 @@ const Camera = (props) => {
 
     setupCamera();
   }, [cameras]);
+
+  // Mostrar grabar despues de 1 segundo
+  useEffect(() => {
+    const timeout = setTimeout(() => setAvailable(true), 1000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  // Video - Actualizar timer cada 1 segundo
+  useEffect(() => {
+    if (!capturing) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      if (timer === 0) {
+        mediaRecorderRef.current.stop();
+        clearInterval(interval);
+        setCapturing(false);
+        setFinished(true);
+        return;
+      }
+
+      timer = timer - 1;
+      const nTimer = formatTimer(timer);
+      setTimerFormatted(nTimer);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [capturing]);
 
   const setupCamera = (camera = undefined) => {
     try {
@@ -165,9 +199,6 @@ const Camera = (props) => {
     return nTimer;
   };
 
-  let timerDuration = duration;
-  const [timer, setTimer] = useState(formatTimer(duration));
-
   const onClickShoot = () => {
     if (type === 'photo') {
       takePicture();
@@ -182,6 +213,37 @@ const Camera = (props) => {
     setLoading(true);
     const base64 = webcamRef.current.getScreenshot();
     onSubmit(base64, isMobile);
+  };
+
+  const recordVideo = () => {
+    setTimerFormatted(formatTimer(timer));
+    setCapturing(true);
+
+    const options = {
+      mimeType: MediaRecorder.isTypeSupported('video/webm')
+        ? 'video/webm'
+        : 'video/mp4',
+    };
+
+    mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, options);
+    mediaRecorderRef.current.addEventListener('dataavailable', handleVideoData);
+    mediaRecorderRef.current.addEventListener('stop', downloadVideo);
+    mediaRecorderRef.current.start(1000);
+  };
+
+  const handleVideoData = (event) => {
+    blobs.push(event.data);
+  }
+
+  const downloadVideo = async () => {
+    logInformation(`Entrando a DownloadVideo (Blobs: ${blobs.length})`)
+    if (blobs.length === 0) {
+      return;
+    }
+
+    const video = new Blob(blobs, { type: 'video/mp4' });
+    const base64 = await blobToBase64(video);
+    onSubmit(base64);
   };
 
   const onClickUpload = () => {
@@ -201,52 +263,6 @@ const Camera = (props) => {
 
     e.target.value = '';
   };
-
-  const recordVideo = useCallback(() => {
-    setCapturing(true);
-
-    mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-      mimeType: MediaRecorder.isTypeSupported('video/webm')
-        ? 'video/webm'
-        : 'video/mp4',
-    });
-
-    mediaRecorderRef.current.addEventListener(
-      'dataavailable',
-      handleDataAvailable
-    );
-    mediaRecorderRef.current.start();
-  }, [webcamRef, setCapturing, mediaRecorderRef]);
-
-  const handleDataAvailable = useCallback(
-    ({ data }) => {
-      if (data.size > 0) {
-        setRecordedChunks((prev) => prev.concat(data));
-      }
-    },
-    [setRecordedChunks]
-  );
-
-  const stopVideo = useCallback(() => {
-    mediaRecorderRef.current.stop();
-    setCapturing(false);
-  }, [mediaRecorderRef, webcamRef, setCapturing]);
-
-  const handleDownload = useCallback(async () => {
-    if (recordedChunks.length) {
-      setLoading(true);
-
-      const blob = new Blob(recordedChunks, {
-        type: 'video/mp4',
-      });
-
-      const base64 = await blobToBase64(blob);
-      // previewVideo(base64);
-      onSubmit(base64);
-
-      setRecordedChunks([]);
-    }
-  }, [recordedChunks]);
 
   const renderUpload = () => {
     if (!upload) {
@@ -302,34 +318,6 @@ const Camera = (props) => {
       </div>
     );
   };
-
-  useEffect(() => {
-    // Mostrar grabar despues de 1 segundo
-    const timeout = setTimeout(() => setAvailable(true), 1000);
-    return () => clearTimeout(timeout);
-  }, []);
-
-  useEffect(() => {
-    // Actualizar timer cada 1 segundo
-    if (!capturing) return;
-
-    const interval = setInterval(() => {
-      timerDuration = timerDuration - 1;
-      setTimer(formatTimer(timerDuration));
-
-      if (timerDuration < 0) {
-        clearInterval(interval);
-        stopVideo();
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [capturing]);
-
-  useEffect(() => {
-    if (capturing || recordedChunks.length === 0) return;
-    handleDownload();
-  }, [recordedChunks]);
 
   if (context.screen !== solicitud.screens.camera) {
     return;
@@ -415,11 +403,11 @@ const Camera = (props) => {
         {capturing && type === 'video' && (
           <div className={classes.timer}>
             <div className={classes.icon}></div>
-            <div className={classes.text}>{timer}</div>
+            <div className={classes.text}>{timerFormatted}</div>
           </div>
         )}
 
-        {available && !capturing && !loading && (
+        {available && !capturing && !loading && !finished && (
           <div className={classes.actions}>
             {renderUpload()}
             {renderAction()}

@@ -23,6 +23,8 @@ const Layout = (props) => {
   const [logo, setLogo] = useState();
   const [type, setType] = useState();
   const [aceptaTyC, setAceptaTyC] = useState(true);
+  const [checked, setChecked] = useState(false);
+
 
   useEffect(() => {
     function handleResize() {
@@ -68,9 +70,10 @@ const Layout = (props) => {
   };
 
 
-  const onClickTerminosReempadronamiento = async (checked) => {
+  const onClickTerminosReempadronamiento = async () => {
+    setChecked(!checked);
     if (type == 'EmpadronamientoBIND') {
-      if (checked) {
+      if (!checked) {
         setAceptaTyC(true);
       }
       else {
@@ -127,7 +130,6 @@ const Layout = (props) => {
                 <br />
                 <div onClick={onClickTerminosReempadronamiento}>
                   <Checkbox
-
                     label={renderTerminosReempadronamiento()}
                     required
                   />

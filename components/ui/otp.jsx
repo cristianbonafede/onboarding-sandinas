@@ -13,7 +13,7 @@ const Otp = (props) => {
   const context = useContext(FormContext);
 
   const [values, setValues] = useState(new Array(size).fill(''));
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(null);
   const inputRef = useRef(null);
 
   const [colorPrimary, setColorPrimary] = useState();
@@ -22,7 +22,9 @@ const Otp = (props) => {
     setColorPrimary(sessionStorage.getItem('color-primary'));
   }, []);
 
+
   useEffect(() => {
+
     inputRef.current?.focus();
   }, [active]);
 
@@ -38,7 +40,8 @@ const Otp = (props) => {
     currentIndex = index;
 
     if (event.key === 'Backspace') {
-      setActive(currentIndex - 1);
+      setValues(new Array(size).fill(''));
+      setActive(0);
     }
   };
 
@@ -55,6 +58,11 @@ const Otp = (props) => {
 
     setValues(nValues);
     context.form.setFieldsValue({ otp: nValues.join('') });
+    
+// Quitar el enfoque cuando completa el OTP
+        if (currentIndex === 3) {
+          inputRef.current.blur(); 
+        }
   };
 
   const validator = (size) => {
@@ -95,6 +103,6 @@ const Otp = (props) => {
       </div>
     </div>
   );
-};
+};;
 
 export default Otp;

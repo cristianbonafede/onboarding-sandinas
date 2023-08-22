@@ -8,6 +8,7 @@ import Instructions from '../ui/instructions';
 import { solicitud } from '../../models/solicitud';
 import SolicitudContext from '../../store/solicitud-context';
 
+import Spinner from '../ui/spinner';
 import Highlight from './../ui/highlight';
 import FormCredenciales from './form-credenciales';
 import classes from './index.module.scss';
@@ -38,7 +39,7 @@ const Credenciales = () => {
   };
 
   if (!visible) {
-    return <div className="not-allowed"></div>;
+    return <Spinner visible={true} />;
   }
 
   return (

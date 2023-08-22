@@ -71,7 +71,7 @@ const FormImages = () => {
     context.changeScreen(solicitud.screens.checklist);
   };
 
-  if (intentos === 3) {
+  if (intentos === 1) {
     return <FormDocumento />;
   }
 

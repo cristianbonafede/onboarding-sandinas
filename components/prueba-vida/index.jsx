@@ -11,6 +11,7 @@ import { solicitud } from '../../models/solicitud';
 import { startCameras } from '../../services/camera';
 import SolicitudContext from '../../store/solicitud-context';
 
+import Spinner from '../ui/spinner';
 import Highlight from './../ui/highlight';
 import classes from './index.module.scss';
 
@@ -32,7 +33,7 @@ const PruebaVida = () => {
         await startCameras();
       } catch (error) {
         context.changeScreen(solicitud.screens.cameraBlocked);
-      } 
+      }
 
       setVisible(true);
       context.updateStep(router);
@@ -46,7 +47,7 @@ const PruebaVida = () => {
   };
 
   if (!visible) {
-    return <div className="not-allowed"></div>;
+    return <Spinner visible={true} />;
   }
 
   return (

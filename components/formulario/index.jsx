@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import Checklist from '../ui/checklist';
 import Header from '../ui/header';
 import Instructions from '../ui/instructions';
+import Spinner from '../ui/spinner';
 import FormFormulario from './form-formulario';
 
 import { solicitud } from '../../models/solicitud';
@@ -50,7 +51,7 @@ const Formulario = () => {
   };
 
   if (!visible) {
-    return <div className="not-allowed"></div>;
+    return <Spinner visible={true} />;
   }
 
   return (

@@ -10,6 +10,7 @@ import FormCuil from './form-cuil';
 import { solicitud } from '../../models/solicitud';
 import SolicitudContext from '../../store/solicitud-context';
 
+import Spinner from '../ui/spinner';
 import classes from './index.module.scss';
 
 const Cuil = () => {
@@ -55,7 +56,7 @@ const Cuil = () => {
   };
 
   if (!visible) {
-    return <div className="not-allowed"></div>;
+    return <Spinner visible={true} />;
   }
 
   return (

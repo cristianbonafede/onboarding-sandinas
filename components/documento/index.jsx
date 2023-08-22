@@ -5,6 +5,7 @@ import { FiCamera, FiImage, FiRepeat } from 'react-icons/fi';
 import CameraBlocked from '../ui/camera-blocked';
 import Checklist from '../ui/checklist';
 import Header from '../ui/header';
+import Spinner from '../ui/spinner';
 import Highlight from './../ui/highlight';
 import Instructions from './../ui/instructions';
 import FormImages from './form-images';
@@ -15,7 +16,7 @@ import SolicitudContext from '../../store/solicitud-context';
 
 import classes from './index.module.scss';
 
-const Documento = () => { 
+const Documento = () => {
   const router = useRouter();
   const context = useContext(SolicitudContext);
 
@@ -34,8 +35,8 @@ const Documento = () => {
         await startCameras();
       } catch (error) {
         context.changeScreen(solicitud.screens.cameraBlocked);
-      } 
-       
+      }
+
       setColorPrimary(sessionStorage.getItem('color-primary'));
       setVisible(true);
       context.updateStep(router);
@@ -49,7 +50,7 @@ const Documento = () => {
   };
 
   if (!visible) {
-    return <div className="not-allowed"></div>;
+    return <Spinner visible={true} />;
   }
 
   return (

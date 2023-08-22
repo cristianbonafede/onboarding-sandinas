@@ -10,6 +10,7 @@ import { solicitud } from '../../models/solicitud';
 import SolicitudContext from '../../store/solicitud-context';
 
 import Highlight from '../ui/highlight';
+import Spinner from '../ui/spinner';
 import classes from './index.module.scss';
 
 const Juridica = () => {
@@ -38,7 +39,7 @@ const Juridica = () => {
   };
 
   if (!visible) {
-    return <div className="not-allowed"></div>;
+    return <Spinner visible={true} />;
   }
 
   return (
