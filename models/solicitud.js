@@ -48,6 +48,7 @@ const get = async () => {
       fechaNacimiento: '03/09/1984',
       cuil: '27-31242402-4',
       cbu: '3220001881007553170113',
+      codigoPostal:'2624',
       telefono: '3413632119',
     };
   }
