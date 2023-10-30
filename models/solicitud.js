@@ -38,17 +38,17 @@ const get = async () => {
     console.log('Get (Mockup)');
     await mockupDelay();
     return {
-      nombres: 'Juan Carlos',
-      apellidos: 'Perez',
-      calle: '9 de Julio',
-      numeracion: '4752',
-      municipalidad: 'Ciudad de Mendoza',
-      provincia: 'Mendoza',
-      documento: 12345678,
-      fechaNacimiento: '01/01/1990',
-      cuil: '20-12341234-5',
-      cbu: '1234123412341234123412',
-      telefono: '123456789',
+      nombres: 'Emma Isabel',
+      apellidos: 'VIGNOLES DEFAGOT',
+      calle: 'BELGRANO',
+      numeracion: '853',
+      municipalidad: 'MARCOS JUáREZ',
+      provincia: 'CORDOBA',
+      documento: 31242402,
+      fechaNacimiento: '03/09/1984',
+      cuil: '27-31242402-4',
+      cbu: '3220001881007553170113',
+      telefono: '3413632119',
     };
   }
 
