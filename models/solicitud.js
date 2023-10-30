@@ -326,7 +326,7 @@ const sendEmailOtp = async () => {
     console.log('SendEmailOtp (Mockup)');
     await mockupDelay();
     try {
-      const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/c3a07e8c-0556-45eb-82bc-08db5880d2f9/contacto/email/otp`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/5e822e52-4ea9-4a6b-5644-08dba35109eb/contacto/email/otp`;
       const data = {};
     
       const response = await http.post(url, data);
@@ -449,7 +449,7 @@ const sendTelefonoOtp = async () => {
     await mockupDelay();
 
     try {
-      const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/c3a07e8c-0556-45eb-82bc-08db5880d2f9/contacto/telefono/otp`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/5e822e52-4ea9-4a6b-5644-08dba35109eb/contacto/telefono/otp`;
       const data = {};
     
       const response = await http.post(url, data);
