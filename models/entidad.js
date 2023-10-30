@@ -122,26 +122,26 @@ const get = async () => {
           },
         ],
       },
-      {
-        url: '/cuenta-comitente',
-        title: 'Cuenta Comitente',
-        actions: [
-          {
-            id: 'update-cuenta-comitente',
-            title: '',
-          },
-        ],
-      },
-      {
-        url: '/productos-banco',
-        title: 'Productos del banco',
-        actions: [
-          {
-            id: 'update-productos-banco',
-            title: '',
-          },
-        ],
-      },
+      // {
+      //   url: '/cuenta-comitente',
+      //   title: 'Cuenta Comitente',
+      //   actions: [
+      //     {
+      //       id: 'update-cuenta-comitente',
+      //       title: '',
+      //     },
+      //   ],
+      // },
+      // {
+      //   url: '/productos-banco',
+      //   title: 'Productos del banco',
+      //   actions: [
+      //     {
+      //       id: 'update-productos-banco',
+      //       title: '',
+      //     },
+      //   ],
+      // },
       { url: '/finalizar', title: '¡Felicitaciones!' },
     ];
 
