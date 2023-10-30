@@ -14,6 +14,7 @@ const Otp = (props) => {
 
   const [values, setValues] = useState(new Array(size).fill(''));
   const [active, setActive] = useState(null);
+  const [isActive, setIsActive] = useState(false);
   const inputRef = useRef(null);
 
   const [colorPrimary, setColorPrimary] = useState();
@@ -46,10 +47,10 @@ const Otp = (props) => {
   };
 
   const onChange = (event) => {
+    setIsActive(true);
     const { value } = event.target;
     const nValues = [...values];
     nValues[currentIndex] = value.substring(value.length - 1);
-
     if (!value) {
       setActive(currentIndex - 1);
     } else {
@@ -59,18 +60,34 @@ const Otp = (props) => {
     setValues(nValues);
     context.form.setFieldsValue({ otp: nValues.join('') });
 
+    //verificacmos si hay alguno previo vacio
+    const primerIndiceConDatos = nValues.findIndex(elemento => elemento !== '');
+    const hayElementoVacioAntesDelPrimerDato = nValues.slice(0, primerIndiceConDatos).some(elemento => elemento === '');
+    if (hayElementoVacioAntesDelPrimerDato) {
+      setValues(new Array(size).fill(''));
+      setActive(0);
+      return;
+    }
+
+
     // Quitar el enfoque cuando completa el OTP
     if (currentIndex === 3) {
       inputRef.current.blur();
+      setIsActive(false);
     }
   };
   const onFocus = (event) => {
     const nValues = [...values];
-    if (nValues.findIndex(x => x === '') === -1) {
+    if (nValues.findIndex(x => x === '') === -1 || !isActive) {
       setValues(new Array(size).fill(''));
       setActive(0);
     }
   };
+
+  const onBlur = (event) => {
+    setIsActive(false);
+  };
+
   const validator = (size) => {
     return () => ({
       validator(_, value) {
@@ -100,7 +117,7 @@ const Otp = (props) => {
             onKeyDown={(e) => onKeyDown(e, index)}
             onChange={onChange}
             onFocus={onFocus}
-            on
+            onBlur={onBlur}
             style={renderStyle(index === active)}
           />
         ))}

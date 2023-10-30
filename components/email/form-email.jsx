@@ -86,6 +86,12 @@ const FormEmail = () => {
         placeholder="usuario@email.com"
         required={emailRequired}
         autofocus
+        validators={[
+          {
+            type: "email",
+            message: 'Ingrese un email válido',
+          },
+        ]}
       />
       {type == "WebPagos" && haveEmail && (
         <div className={classes.text}>

@@ -7,6 +7,8 @@ const set = (theme) => {
   const text = isDark ? '#ffffff' : '#333333';
 
   sessionStorage.setItem('logo', theme.logo);
+  sessionStorage.setItem('background', theme.background);
+  sessionStorage.setItem('font-family', theme.fuente);
   sessionStorage.setItem('color-primary', theme.color);
   sessionStorage.setItem('color-accent', accent);
   sessionStorage.setItem('color-text', text);

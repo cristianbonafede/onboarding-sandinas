@@ -5,19 +5,20 @@ import Checklist from '../ui/checklist';
 import Header from '../ui/header';
 import Highlight from '../ui/highlight';
 import Instructions from '../ui/instructions';
-import FormCuil from './form-cuil';
+import FormSocialnet from './form-socialnet-complete';
 
 import { solicitud } from '../../models/solicitud';
 import SolicitudContext from '../../store/solicitud-context';
-
 import Spinner from '../ui/spinner';
+
 import classes from './index.module.scss';
 
-const Cuil = () => {
+const SocialNetComercio = () => {
   const router = useRouter();
   const context = useContext(SolicitudContext);
 
   const [visible, setVisible] = useState(false);
+  const type = sessionStorage.getItem('type');
 
   useEffect(() => {
     const validateStep = async () => {
@@ -34,20 +35,21 @@ const Cuil = () => {
   }, [context.steps]);
 
   useEffect(() => {
-    const getCuil = async () => {
-      const response = await solicitud.getCuil();
-      if (response.cuil && response.cuil > 1) {
-        const responseExistePersona = await solicitud.existePersona();
-        if (responseExistePersona) {
-          await context.nextStep(router);
-        }
-      } else {
+    const checkEstado = async () => {
+      if (context.screen == solicitud.screens.checklist) {
         setVisible(true);
+        return;
       }
+
+      const response = await solicitud.updateEstadoSimpleEnrollment(false);
+      // if (!response) {
+      //   return;
+      // }
+      setVisible(true);
     };
 
-    if (context.step?.url === '/cuil') {
-      getCuil();
+    if (context.step?.url === '/socialnet-comercio') {
+      checkEstado();
     }
   }, [context.step]);
 
@@ -63,16 +65,23 @@ const Cuil = () => {
     <div className={classes.documento}>
       <Header />
       <Instructions
-        image="/images/id-front.png"
+        image="/images/video.png"
+        vertical
         nextScreen={solicitud.screens.form}
       >
-        Necesitamos que ingreses tu
-        <Highlight primary>CUIL</Highlight> para poder continuar con el proceso.
+        <div className={classes.instructions}>
+          A continuación, te
+          <Highlight primary>
+            redirigiremos para realizar una prueba de vida
+          </Highlight>
+          y validar tu identidad. Seguí las instrucciones para continuar con el
+          proceso.
+        </div>
       </Instructions>
-      <FormCuil />
+      <FormSocialnet />
       <Checklist onFinish={onFinish} />
     </div>
   );
 };
 
-export default Cuil;
+export default SocialNetComercio;

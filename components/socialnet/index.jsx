@@ -18,6 +18,7 @@ const SocialNet = () => {
   const context = useContext(SolicitudContext);
 
   const [visible, setVisible] = useState(false);
+  const type = sessionStorage.getItem('type');
 
   useEffect(() => {
     const validateStep = async () => {
@@ -40,7 +41,7 @@ const SocialNet = () => {
         return;
       }
 
-      const response = await solicitud.updateEstadoSimpleEnrollment();
+      const response = await solicitud.updateEstadoSimpleEnrollment(false);
       if (!response) {
         return;
       }
@@ -79,7 +80,7 @@ const SocialNet = () => {
             redirigiremos para realizar una prueba de vida
           </Highlight>
           y validar tu identidad. Seguí las instrucciones para continuar con el
-          proceso. 
+          proceso.
         </div>
       </Instructions>
       <FormSocialnet />

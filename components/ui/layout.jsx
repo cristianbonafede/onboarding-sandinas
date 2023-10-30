@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
@@ -21,10 +22,11 @@ const Layout = (props) => {
   const [visible, setVisible] = useState(false);
   const [landscape, setLandscape] = useState(false);
   const [logo, setLogo] = useState();
+  const [background, setBackground] = useState();
+  const [fontFamily, setFontFamily] = useState();
   const [type, setType] = useState();
   const [aceptaTyC, setAceptaTyC] = useState(true);
   const [checked, setChecked] = useState(false);
-
 
   useEffect(() => {
     function handleResize() {
@@ -49,12 +51,18 @@ const Layout = (props) => {
     if (context.steps.length === 0) {
       return;
     }
+
     setLogo(sessionStorage.getItem('logo'));
-    const ty = sessionStorage.getItem('type');
-    setType(ty);
-    if (ty == 'EmpadronamientoBIND') {
+    setBackground(sessionStorage.getItem('background'));
+    setFontFamily(sessionStorage.getItem('font-family'));
+
+    const type = sessionStorage.getItem('type');
+    setType(type);
+
+    if (type == 'EmpadronamientoBIND') {
       setAceptaTyC(false);
     }
+
     setVisible(true);
   }, [context.steps]);
 
@@ -69,8 +77,8 @@ const Layout = (props) => {
     }
   };
 
-
-  const onClickTerminosReempadronamiento = async () => {
+  const onClickTerminosReempadronamiento = async (values) => {
+    console.log(values)
     setChecked(!checked);
     if (type == 'EmpadronamientoBIND') {
       if (!checked) {
@@ -128,8 +136,9 @@ const Layout = (props) => {
                 nuestros Términos y Condiciones.
                 <br />
                 <br />
-                <div onClick={onClickTerminosReempadronamiento}>
+                <div >
                   <Checkbox
+                    onChange={onClickTerminosReempadronamiento}
                     label={renderTerminosReempadronamiento()}
                     required
                   />
@@ -221,45 +230,55 @@ const Layout = (props) => {
   }
 
   return (
-    <div className={classes.layout}>
-      <div className={classes.gradient}>
-        <div className={`${classes.jumbotron} ${isHome && classes.home}`}>
-          <div className={classes.logo}>
-            <Image src={logo} alt="Logo" layout="fill" objectFit="contain" />
+    <React.Fragment>
+      <Head>
+        <link
+          href={`https://fonts.googleapis.com/css2?family=${fontFamily.replace(' ', '+')}:wght@200;400;500;600;700;900&display=swap`}
+          rel="stylesheet"
+          crossOrigin="true"
+        />
+      </Head>
+      <div className={classes.layout} style={{ backgroundImage: `url("${background}")`, fontFamily: fontFamily }}>
+        <div className={classes.gradient}>
+          <div className={`${classes.jumbotron} ${isHome && classes.home}`}>
+            <div className={classes.logo}>
+              <Image src={logo} alt="Logo" layout="fill" objectFit="contain" />
+            </div>
+            {renderText()}
+            {isHome && (
+              <div className={classes.action}>
+                <Button
+                  disabled={!aceptaTyC}
+                  type="primary"
+                  text={renderTextButton()}
+                  onClick={onClickRegister}
+                />
+              </div>
+            )}
           </div>
-          {renderText()}
-          {isHome && (
-            <div className={classes.action}>
-              <Button
-                disabled={!aceptaTyC}
-                type="primary"
-                text={renderTextButton()}
-                onClick={onClickRegister}
+          <div className={`${classes.main} ${isHome && classes.home}`}>
+            {children}
+          </div>
+        </div>
+        {landscape && (
+          <div className={classes.landscape}>
+            <div className={classes.image}>
+              <Image
+                src="/images/rotate.png"
+                alt="Logo"
+                layout="fill"
+                objectFit="contain"
               />
             </div>
-          )}
-        </div>
-        <div className={`${classes.main} ${isHome && classes.home}`}>
-          {children}
-        </div>
+            <div className={classes.title}>
+              Utilizá tu dispositivo en{' '}
+              <Highlight primary>posicion vertical</Highlight>
+            </div>
+          </div>
+        )}
       </div>
-      {landscape && (
-        <div className={classes.landscape}>
-          <div className={classes.image}>
-            <Image
-              src="/images/rotate.png"
-              alt="Logo"
-              layout="fill"
-              objectFit="contain"
-            />
-          </div>
-          <div className={classes.title}>
-            Utilizá tu dispositivo en{' '}
-            <Highlight primary>posicion vertical</Highlight>
-          </div>
-        </div>
-      )}
-    </div>
+    </React.Fragment>
+
   );
 };
 

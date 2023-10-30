@@ -95,8 +95,7 @@ const create = async (
     genero: genero,
     documento: documento,
     documentotramite: documentotramite,
-    tipoSolicitud: sessionStorage.getItem('type')
-
+    tipoSolicitud: sessionStorage.getItem('type'),
   };
 
   const response = await http.post(url, data);
@@ -860,6 +859,28 @@ const createEnrollment = async () => {
   return false;
 };
 
+const createAutenticacion = async () => {
+  if (mockup) {
+    console.log('CreateAutenticacion (Mockup)');
+    await mockupDelay();
+    return {
+      urlAutenticacion: 'https://www.google.com.ar/',
+    };
+  }
+
+  const id = sessionStorage.getItem('solicitud');
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/${id}/crear-autenticacion`;
+  const data = {};
+  const response = await http.patch(url, data);
+
+  if (!response.error) {
+    return response.data;
+  }
+
+  window.location.replace(`error?code=${response.codigo}`);
+  return false;
+};
+
 const updateEstadoEnrollment = async () => {
   if (mockup) {
     console.log('UpdateEstadoEnrollment (Mockup)');
@@ -880,7 +901,7 @@ const updateEstadoEnrollment = async () => {
   return false;
 };
 
-const updateEstadoSimpleEnrollment = async () => {
+const updateEstadoSimpleEnrollment = async (cancelarPrevio) => {
   if (mockup) {
     console.log('UpdateEstadoSimpleEnrollment (Mockup)');
     await mockupDelay();
@@ -891,7 +912,7 @@ const updateEstadoSimpleEnrollment = async () => {
 
   const id = sessionStorage.getItem('solicitud');
   const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/${id}/enrollment-estado-simple`;
-  const data = {};
+  const data = { cancelarPrevio };
   const response = await http.patch(url, data);
 
   if (!response.error) {
@@ -911,6 +932,26 @@ const updateInfoEnrollment = async () => {
 
   const id = sessionStorage.getItem('solicitud');
   const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/${id}/enrollment-estado-simple`;
+  const data = {};
+  const response = await http.patch(url, data);
+
+  if (!response.error) {
+    return true;
+  }
+
+  window.location.replace(`error?code=${response.codigo}`);
+  return false;
+};
+
+const updateEstadoValidacion = async () => {
+  if (mockup) {
+    console.log('updateEstadoValidacion (Mockup)');
+    await mockupDelay();
+    return true;
+  }
+
+  const id = sessionStorage.getItem('solicitud');
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/${id}/consultar-estado-autenticacion`;
   const data = {};
   const response = await http.patch(url, data);
 
@@ -945,7 +986,6 @@ const updateJubilo = async (aceptaTyc) => {
 };
 
 const updateRipsa = async (aceptaTyc) => {
-  debugger;
   if (mockup) {
     console.log('Update-Ripsa (Mockup)');
     await mockupDelay();
@@ -1127,10 +1167,13 @@ const runAction = async (action, form) => {
       return await getCuil();
 
     case 'update-cuil':
-      return await updateCuil();
+      return await updateCuil(form.cuil);
 
     case 'create-enrollment':
       return await createEnrollment();
+      
+    case 'create-autenticacion':
+      return await createAutenticacion();
 
     case 'update-estado-enrollment':
       return await updateEstadoEnrollment();
@@ -1140,6 +1183,9 @@ const runAction = async (action, form) => {
 
     case 'update-info-enrollment':
       return await updateInfoEnrollment();
+
+    case 'update-estado-autenticacion':
+      return await updateEstadoValidacion();
 
     case 'update-jubilo':
       return await updateJubilo(form.aceptaTyc);
@@ -1213,6 +1259,7 @@ export const solicitud = {
   updateDatosBind: updateDatosBind,
   existePersona: existePersona,
   createEnrollment: createEnrollment,
+  createAutenticacion: createAutenticacion,
   updateEstadoEnrollment: updateEstadoEnrollment,
   updateEstadoSimpleEnrollment: updateEstadoSimpleEnrollment,
   updateInfoEnrollment: updateInfoEnrollment,

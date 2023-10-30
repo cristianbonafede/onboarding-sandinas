@@ -62,6 +62,16 @@ const FormTelefono = () => {
         type="number"
         inputMode="tel"
         addonBefore="(+54 9)"
+        validators={[
+          {
+            pattern: new RegExp(/^[0-9]{10}$/),
+            message: 'Ingrese los 10 dígitos del celular',
+          },
+          {
+            pattern: new RegExp(/^[^0]/),
+            message: 'Ingrese un celular válido',
+          },
+        ]}
       />
 
       <div className={classes.description}>

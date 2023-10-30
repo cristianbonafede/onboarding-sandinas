@@ -10,13 +10,31 @@ import classes from './../index.module.scss';
 
 const Generico = () => {
   const router = useRouter();
+  const type = sessionStorage.getItem('type');
 
   const onClickRetry = () => {
     redirect(router, '');
   };
-
-  return (
-    <LayoutErrorBase>
+  const renderText = () => {
+    // Jubilo
+    if (type == 'EmpadronamientoBIND') {
+      return (
+        <div>
+          <div className={classes.title}>
+            <Highlight primary>¡Ups! Algo salió mal</Highlight>
+          </div>
+          <div className={classes.description}>
+            Ocurrió un error general. Por favor, volvé a intentarlo más tarde y si el problema persiste comunicate
+            al 0810.666.0505 o bien acercate a tu sucursal más cercana
+          </div>
+          <div className={classes.action}>
+            <Button type="primary" text="Reintentar" onClick={onClickRetry} />
+          </div>
+        </div>
+      );
+    }
+    // Persona Fisica
+    return (
       <div>
         <div className={classes.title}>
           <Highlight primary>¡Ups! Algo salió mal</Highlight>
@@ -32,7 +50,14 @@ const Generico = () => {
           <Button type="primary" text="Reintentar" onClick={onClickRetry} />
         </div>
       </div>
+
+    );
+  };
+  return (
+    <LayoutErrorBase>
+      {renderText()}
     </LayoutErrorBase>
+
   );
 };
 

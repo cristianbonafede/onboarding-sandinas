@@ -3,17 +3,17 @@ import { useContext, useEffect, useState } from 'react';
 
 import Checklist from '../ui/checklist';
 import Header from '../ui/header';
-import Highlight from '../ui/highlight';
 import Instructions from '../ui/instructions';
-import FormCuil from './form-cuil';
 
 import { solicitud } from '../../models/solicitud';
 import SolicitudContext from '../../store/solicitud-context';
 
+import Highlight from '../ui/highlight';
 import Spinner from '../ui/spinner';
+import FormRipsa from './form-zafiro';
 import classes from './index.module.scss';
 
-const Cuil = () => {
+const Formulario = () => {
   const router = useRouter();
   const context = useContext(SolicitudContext);
 
@@ -27,29 +27,12 @@ const Cuil = () => {
         return;
       }
 
+      setVisible(true);
       context.updateStep(router);
     };
 
     validateStep();
   }, [context.steps]);
-
-  useEffect(() => {
-    const getCuil = async () => {
-      const response = await solicitud.getCuil();
-      if (response.cuil && response.cuil > 1) {
-        const responseExistePersona = await solicitud.existePersona();
-        if (responseExistePersona) {
-          await context.nextStep(router);
-        }
-      } else {
-        setVisible(true);
-      }
-    };
-
-    if (context.step?.url === '/cuil') {
-      getCuil();
-    }
-  }, [context.step]);
 
   const onFinish = async () => {
     await context.nextStep(router);
@@ -60,19 +43,21 @@ const Cuil = () => {
   }
 
   return (
-    <div className={classes.documento}>
+    <div className={classes.formulario}>
       <Header />
       <Instructions
-        image="/images/id-front.png"
+        image="/images/agreement.png"
+        vertical
         nextScreen={solicitud.screens.form}
       >
-        Necesitamos que ingreses tu
-        <Highlight primary>CUIL</Highlight> para poder continuar con el proceso.
+        Ahora necesitamos que completes un pequeño
+        <Highlight primary>formulario</Highlight> y aceptes los
+        <Highlight primary>términos y condiciones</Highlight>
       </Instructions>
-      <FormCuil />
+      <FormRipsa />
       <Checklist onFinish={onFinish} />
     </div>
   );
 };
 
-export default Cuil;
+export default Formulario;

@@ -43,6 +43,7 @@ const Checkbox = (props) => {
   const onClick = () => {
     if (!name) {
       setChecked(!checked);
+      onChange(!checked);
       return;
     }
     let nForm = {};

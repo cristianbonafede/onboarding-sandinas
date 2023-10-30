@@ -10,13 +10,29 @@ import classes from './../index.module.scss';
 
 const SolicitudPreviaAprobada = () => {
   const router = useRouter();
+  const type = sessionStorage.getItem('type');
+
 
   const onClickRetry = () => {
     redirect(router, '');
   };
 
-  return (
-    <LayoutErrorBase>
+  const renderText = () => {
+    // Jubilo
+    if (type == 'EmpadronamientoBIND') {
+      return (
+        <div>
+          <div className={classes.title}>
+            <Highlight primary> ¡Tus datos ya se encuentran registrados!</Highlight>
+          </div>
+          <div className={classes.description}>
+            Si necesitás actualizar o modificar tu información de contacto, por favor comunicate al 0810.666.0505 o bien acercate a tu sucursal más cercana
+          </div>
+        </div>
+      );
+    }
+    // Persona Fisica
+    return (
       <div>
         <div className={classes.title}>
           <Highlight primary>¡Ups! Algo salió mal</Highlight>
@@ -32,7 +48,14 @@ const SolicitudPreviaAprobada = () => {
           <Button type="primary" text="Reintentar" onClick={onClickRetry} />
         </div>
       </div>
+
+    );
+  };
+  return (
+    <LayoutErrorBase>
+      {renderText()}
     </LayoutErrorBase>
+
   );
 };
 
