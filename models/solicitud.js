@@ -325,7 +325,21 @@ const sendEmailOtp = async () => {
   if (mockup) {
     console.log('SendEmailOtp (Mockup)');
     await mockupDelay();
-    return true;
+    try {
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/c3a07e8c-0556-45eb-82bc-08db5880d2f9/contacto/email/otp`;
+      const data = {};
+    
+      const response = await http.post(url, data);
+      if (!response.error) {
+      }
+      
+    } catch (error) {
+      
+    }
+    finally{
+      return true;
+    
+    }
   }
 
   const id = sessionStorage.getItem('solicitud');
@@ -433,7 +447,22 @@ const sendTelefonoOtp = async () => {
   if (mockup) {
     console.log('SendTelefonoOtp (Mockup)');
     await mockupDelay();
-    return true;
+
+    try {
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/c3a07e8c-0556-45eb-82bc-08db5880d2f9/contacto/telefono/otp`;
+      const data = {};
+    
+      const response = await http.post(url, data);
+      if (!response.error) {
+      }
+      
+    } catch (error) {
+      
+    }
+    finally{
+      return true;
+    
+    }
   }
 
   const id = sessionStorage.getItem('solicitud');
