@@ -1077,6 +1077,72 @@ const updateAltaRegistroCelular = async () => {
   return false;
 };
 
+const updateAltaCuentaQR = async () => {
+  if (mockup) {
+    console.log('UpdateAltaCuentaQR (Mockup)');
+    await mockupDelay();
+    return true;
+  }
+
+  const id = sessionStorage.getItem('solicitud');
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/${id}/alta-cuenta-qr`;
+  const data = {};
+
+  const response = await http.patch(url, data);
+  if (!response.error) {
+    return true;
+  }
+
+  // window.location.replace(`error?code=${response.codigo}`);
+  window.location.replace(`procesando`);
+
+  return false;
+};
+
+const updateAltaWallet = async () => {
+  if (mockup) {
+    console.log('UpdateAltaWallet (Mockup)');
+    await mockupDelay();
+    return true;
+  }
+
+  const id = sessionStorage.getItem('solicitud');
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/${id}/alta-wallet`;
+  const data = {};
+
+  const response = await http.patch(url, data);
+  if (!response.error) {
+    return true;
+  }
+
+  // window.location.replace(`error?code=${response.codigo}`);
+  window.location.replace(`procesando`);
+
+  return false;
+};
+
+const updateAsignarComercioWallet = async () => {
+  if (mockup) {
+    console.log('updateAsignarComercioWallet (Mockup)');
+    await mockupDelay();
+    return true;
+  }
+
+  const id = sessionStorage.getItem('solicitud');
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/solicitudes/${id}/asignar-comercio-wallet`;
+  const data = {};
+
+  const response = await http.patch(url, data);
+  if (!response.error) {
+    return true;
+  }
+
+  // window.location.replace(`error?code=${response.codigo}`);
+  window.location.replace(`procesando`);
+
+  return false;
+};
+
 const runAction = async (action, form) => {
   switch (action.id) {
     case 'create':
@@ -1229,6 +1295,15 @@ const runAction = async (action, form) => {
     case 'update-alta-registro-celular':
       return await updateAltaRegistroCelular();
 
+    case 'update-alta-cuenta-qr':
+      return await updateAltaCuentaQR();
+  
+    case 'update-alta-wallet':
+      return await updateAltaWallet();
+  
+    case 'update-asignar-comercio-wallet':
+      return await updateAsignarComercioWallet();
+    
     default:
       return false;
   }

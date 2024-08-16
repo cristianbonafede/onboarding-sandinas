@@ -35,10 +35,6 @@ const get = async () => {
             title: '',
           },
           {
-            id: 'update-lista-negra-bind',
-            title: '',
-          },
-          {
             id: 'update-nosis',
             title: '',
           },
@@ -49,12 +45,12 @@ const get = async () => {
         ],
       },
       {
-        url: '/prueba-vida',
-        title: 'Prueba de Vida',
+        url: '/selfie-identidad',
+        title: 'Validación de selfie',
         actions: [
           {
-            id: 'update-prueba-vida',
-            title: 'Comprobando prueba de vida',
+            id: 'update-selfie-identidad',
+            title: 'Comprobando Identidad',
           },
         ],
       },
@@ -62,32 +58,20 @@ const get = async () => {
         url: '/email',
         title: 'Vamos a validar tu email',
         actions: [
-          {
-            id: 'update-email-scoring',
-            title: '',
-          },
         ],
       },
       {
         url: '/telefono',
         title: 'Vamos a validar tu celular',
         actions: [
-          {
-            id: 'update-telefono-scoring',
-            title: '',
-          },
         ],
       },
       {
-        url: '/formulario',
+        url: '/formulario-tin',
         title: 'Algunos datos más',
         actions: [
           {
             id: 'update',
-            title: '',
-          },
-          {
-            id: 'update-padron-a5',
             title: '',
           },
           {
@@ -106,22 +90,18 @@ const get = async () => {
             id: 'update-legajo-digital',
             title: '',
           },
-          {
-            id: 'update-alta-cuenta',
-            title: '',
-          },
         ],
       },
-      {
-        url: '/credenciales',
-        title: 'Home Banking',
-        actions: [
-          {
-            id: 'update-credenciales',
-            title: 'Actualizando credenciales',
-          },
-        ],
-      },
+      // {
+      //   url: '/credenciales',
+      //   title: 'Home Banking',
+      //   actions: [
+      //     {
+      //       id: 'update-credenciales',
+      //       title: 'Actualizando credenciales',
+      //     },
+      //   ],
+      // },
       // {
       //   url: '/cuenta-comitente',
       //   title: 'Cuenta Comitente',
